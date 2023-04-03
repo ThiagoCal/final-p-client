@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import 'mapbox-gl/dist/mapbox-gl.css';
-// import mapboxgl from '!mapbox-gl';
 import axios from 'axios';
 import Search from './Search';
+import MapView from './MapView';
+
 
 export const Home = (props) => {
   const [parties, setParties] = useState('')
@@ -22,6 +22,7 @@ export const Home = (props) => {
     <>
       <div>Home</div>
       <Search/>
+      <MapView state={parties}/>
     </>
   )
 }

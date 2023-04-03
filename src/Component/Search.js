@@ -14,7 +14,7 @@ function Search() {
 
   const handleSearch = async () => {
     console.log(selectedDate)
-    //party_date: partyDate,
+    
     try {
       const response = await axios.get(`http://localhost:3800/parties_search`, {
         params: { name, party_date: selectedDate, city, address }
@@ -37,14 +37,11 @@ function Search() {
   return (
     <div>
       <input type="text"  className='border 1px solid black' value={name} onChange={(e) => setName(e.target.value)} />
-      {/* <input type="text" value={partyDate} onChange={(e) => setPartyDate(e.target.value)} /> */}
       <DatePicker
         selected={selectedDate}
         onChange={date => handleSelectDate(date)}
         dateFormat="yyyy-MM-dd"
-        // showTimeInput
-        // timeInputLabel="Time:"
-        // timeFormat="HH:mm"
+        minDate={new Date()}
         timeZone="Israel"
         />
       <input type="text" className='border 1px solid black' value={city} onChange={(e) => setCity(e.target.value)} />

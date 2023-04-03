@@ -12,6 +12,7 @@ includeTimes={[
     setHours(setMinutes(new Date(), 30), 19),
     setHours(setMinutes(new Date(), 30), 17),
 ]}
+ minDate={new Date()}
 dateFormat="MMMM d, yyyy h:mm aa"
 timeZone="Israel"
 /> */}
