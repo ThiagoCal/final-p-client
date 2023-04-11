@@ -283,6 +283,7 @@ export const CreateParty = (props) => {
                     <input
                       type="checkbox"
                       value={elem.category_id}
+                      // defaultChecked={a}
                       onChange={(e)=>handleCheckboxChangeCategory(e)}
                     />
                     {elem.category_name}
@@ -322,7 +323,7 @@ export const CreateParty = (props) => {
             className="block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
           />
         </div>
-        <button type="submit">{partyId? 'Update Party' : 'Create Party'}</button>
+        <button type="submit">{partyId ? 'Update Party' : 'Create Party'}</button>
       </form>
     </div>
   )

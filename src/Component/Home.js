@@ -24,19 +24,19 @@ export const Home = (props) => {
       <div>Home</div>
       <Search/>
       {/* <MapView state={parties}/> */}
-      {
+      {/* {
         parties?
 
         parties.map(party =>{
           return(
-            <div className='flex flex-col'>
+            <div className='flex flex-col '>
              <span>{party.name} <Link to={`/parties/${party.id}`}>Update</Link></span>
             </div>
           )
         })
         :
         <></>
-      }
+      } */}
     </>
   )
 }
