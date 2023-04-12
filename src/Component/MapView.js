@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback, useRef } from 'react'
 // import { useLocation } from 'react-router-dom';
-import Map, {Marker,  Popup} from 'react-map-gl';
+import Map, {Marker,  Popup, MapRef} from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import moment from 'moment';
-
+import ControlPanel from './ControlPanel';
 
 export const MapView = (props) => {
     const [partiesmap, setParties] = useState([props.state]);
@@ -12,20 +12,28 @@ export const MapView = (props) => {
     useEffect(() => {
       console.log('parties', partiesmap);
     }, [partiesmap]);
+
+    const mapRef = useRef();
+
+    const onSelectCity = useCallback(({longitude, latitude}) => {
+        mapRef.current?.flyTo({center: [longitude, latitude], duration: 2000});
+    }, []);
   
     if (partiesmap || partiesmap.length > 0) {
         return (
             <>
+                <div style={{position: 'relative'}}>
                 <Map
                     id="mymap"
                     initialViewState={{
-                        longitude: 34.855499,
-                        latitude: 32.109333,
-                        zoom: 10
+                        longitude: 34.77294,
+                        latitude: 32.074111,
+                        zoom: 12
                     }}
-                    style={{width: 800, height: 600}}
+                    style={{width: 600, height: 600}}
                     mapStyle="mapbox://styles/mapbox/streets-v9"
                     mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
+                    ref={mapRef}
                 > 
                     {partiesmap.length > 0 ? 
                         partiesmap[0].map(party => (
@@ -36,17 +44,15 @@ export const MapView = (props) => {
                                     longitude={party.longitude}
                                     anchor="bottom"
                                     onClick={e => {
-                                        // If we let the click event propagates to the map, it will immediately close the popup
-                                        // with `closeOnClick: true`
                                         e.originalEvent.stopPropagation();
-                                        // setPopupInfo(party);
+                                        setPopupInfo(party);
                                     }}
                                 >
                                         <div
                                         style={{
                                         height: 10,
                                         width: 10,
-                                        backgroundColor: "#"+Math.floor(Math.random()*16777215).toString(16),
+                                        backgroundColor: 'cyan',
                                         borderRadius: 10,
                                         textAlign: 'center'
                                         }}
@@ -54,7 +60,7 @@ export const MapView = (props) => {
                                         <span></span>
                                         </div>
                                 </Marker>
-                                {/* {popupInfo && ( 
+                                {popupInfo && ( 
                                     <Popup
                                         anchor="top"
                                         longitude={Number(popupInfo.longitude)}
@@ -72,13 +78,17 @@ export const MapView = (props) => {
                                         </div>
                                         <img width="100%" src={popupInfo.image} />
                                     </Popup>
-                                    )} */}
+                                    )}
                             </>
                         )) 
                         : <></>
                     }
                   
-                </Map> 
+                </Map>
+                <div style={{position:'absolute', top:10, right:10, zIndex: 1, backgroundColor: 'white', padding: "1em", opacity:0.8, borderRadius:"10px"}}>
+                    <ControlPanel onSelectCity={onSelectCity} /> 
+                </div>
+                </div>
             </>
         );
     } else {
