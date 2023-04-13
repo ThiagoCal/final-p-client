@@ -29,7 +29,7 @@ function Search() {
       setParties(response.data);
       setLoading(false);
     } catch (error) {
-      console.log(error);
+      console.log('hi', error);
       setLoading(false);
     }
   };
@@ -143,7 +143,6 @@ function Search() {
               <div className="flex flex-col">
                 {parties.map((party) => {
                   console.log(party);
-                  console.log(markers);
                   return (
                     <div className="flex flex-col justify-center w-11/12 mr-1 mb-2">
                       <div

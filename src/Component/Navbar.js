@@ -22,7 +22,7 @@ const Navbar = (props) => {
               <div className="hidden md:block">
                 <div className="ml-10 flex items-baseline space-x-4">
                     <Link to='/' className=" hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium"> Home</Link>
-                    <Link to='/create_party' className=" hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium"> Create Party</Link>
+                    <Link to='/create-party' className=" hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium"> Create Party</Link>
                     <Link to='' className="hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium"> Your Parties</Link>
                     <Link to='' className="hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium"> About Us</Link>
                   {/* <a
@@ -122,7 +122,7 @@ const Navbar = (props) => {
             <div className="md:hidden" id="mobile-menu">
               <div ref={ref} className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
                     <Link to='/' className=" hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium"> Home</Link>
-                    <Link to='/create_party' className=" hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium"> Create Party</Link>
+                    <Link to='/create-party' className=" hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium"> Create Party</Link>
                     <Link to='' className="hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium"> Your Parties</Link>
                     <Link to='' className="hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium"> About Us</Link>
                 {/* <a

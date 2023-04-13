@@ -24,12 +24,45 @@ export const CreateParty = (props) => {
   const [price, setPrice] = useState("0");
   const [date, setDate] = useState("");
   const [isActive, setIsActive] = useState(true);
-
+  const [isLogged, setIsLogged] = useState(true)
   const [partyId, setPartyId] = useState(null);
-  //states for updating a party
+  const [input, setInput] = useState({});
+  const [msg, setMsg] = useState('')
+
   const params = useParams();
-  // const [latitude, setLatitude] = useState('')
-  // const [longitude, setLongitude] = useState('')
+  
+
+  useEffect(()=>{
+
+    const verify = async() => {
+      try{
+        let cookies = await axios.get('/token')
+        console.log(cookies.data)
+        console.log(cookies.status)
+        if(cookies.status === 200){
+          setIsLogged(false)
+        }
+      }
+      catch(err){
+        console.log(err)
+        setIsLogged(true)
+      }
+    }
+    verify()
+
+  },[])
+
+  const handleChange = (e) =>{
+    console.log('hello', e.target.value)
+    setInput(e.target.value)
+    console.log(input)
+  }
+
+  const handleSubmitFile = async(e) =>{
+    e.preventDefault()
+  
+    
+  }
 
   const handleChangePrice = (newValue) => {
     console.log("onValueChange fired");
@@ -62,7 +95,7 @@ export const CreateParty = (props) => {
   };
 
   const handleCheckboxChangeCategory = (event) => {
-    const itemId = event.target.value;
+    const itemId = parseInt(event.target.value);
     console.log(itemId);
     const isChecked = event.target.checked;
     console.log(isChecked);
@@ -72,7 +105,7 @@ export const CreateParty = (props) => {
       }
       return prev.filter((id) => id !== itemId);
     });
-    setSelectedCategory([...selectedCategory]);
+    // setSelectedCategory([...selectedCategory]);
     // setSelectedCategory([...selectedCategory], () => { console.log(selectedCategory)})
   };
 
@@ -105,6 +138,7 @@ export const CreateParty = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    
     if (!partyId) {
       console.log(
         selectedCategory,
@@ -123,6 +157,24 @@ export const CreateParty = (props) => {
       getCoordinates(fAdress).then((data) => {
         const latitude = data.data.results[0].geometry.lat;
         const longitude = data.data.results[0].geometry.lng;
+
+        const sendImage = async() => {
+          const dataForm = new FormData()
+          console.log('input submit', input)
+          dataForm.append('myImage',input)
+          console.log('dataform', dataForm)
+          try{
+            let response = await axios.post('/uploadimg', {
+              dataForm
+            })
+            setMsg(response.data.msg)
+          }catch(e){
+            console.log(e)
+            setMsg(e.response.data.msg)
+          }
+        }
+        sendImage()
+
         const sendData = async () => {
           let post = await axios.post("/create_party", {
             selectedCategory,
@@ -261,6 +313,7 @@ export const CreateParty = (props) => {
               value={partyName}
               placeholder="Electric Nights"
               onChange={(e) => setPartyName(e.target.value)}
+              disabled={isLogged}
             />
             {/* {
             !partyName && <p className="text-red-500 text-xs italic">Please fill out this field.</p>
@@ -374,6 +427,15 @@ export const CreateParty = (props) => {
                 className="block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
               />
             </div>
+          </div>
+          <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+            <label
+              className="block uppercase tracking-wide text-gray-700 p-1 text-xs font-bold mb-2"
+              htmlFor="grid-image"
+            >
+              Attach the party Image
+            </label>
+            <input type="file" id="grid-image" name="myImage" onChange={(e)=>handleChange(e)} accept="image/*"/>
           </div>
           {/* Empty div for spacing */}
           {/* <div className="flex flex-col justify-center mt-2"></div> */}

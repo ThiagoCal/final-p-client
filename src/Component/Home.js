@@ -10,15 +10,18 @@ export const Home = (props) => {
   // const [parties, setParties] = useState('')
 
 
-  // useEffect(()=>{
-  //   const getParties = async() =>{
-  //     let response = await axios.get('/parties')
-  //     console.log(response.data)
-  //     setParties(response.data)
-  //   }
-  //   getParties()
-  //   console.log('parties', parties)
-  // },[])
+  useEffect(()=>{
+    // const test = async() => {
+    //   let cookies = await axios.get('/test')
+    //   console.log(cookies.data)
+    // }
+    // test()
+    const verify = async() => {
+      let cookies = await axios.get('/token')
+      console.log(cookies.data)
+    }
+    verify()
+  },[])
 
   return (
     <>
