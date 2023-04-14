@@ -20,7 +20,6 @@ function Search() {
 
   // const [markers, setMarkers] = useState([])
   const handleSearch = async () => {
-    console.log(selectedDate);
     setLoading(true);
     try {
       const response = await axios.get(`http://localhost:3800/parties_search`, {
@@ -29,7 +28,7 @@ function Search() {
       setParties(response.data);
       setLoading(false);
     } catch (error) {
-      console.log('hi', error);
+      console.log(error);
       setLoading(false);
     }
   };
@@ -53,7 +52,6 @@ function Search() {
     });
   };
 
-  console.log(todayDate);
   return (
     <div className="container mx-auto px-4">
       <div className="flex flex-wrap justify-center">
@@ -142,7 +140,6 @@ function Search() {
             <div className="flex">
               <div className="flex flex-col">
                 {parties.map((party) => {
-                  console.log(party);
                   return (
                     <div className="flex flex-col justify-center w-11/12 mr-1 mb-2">
                       <div
@@ -213,8 +210,7 @@ function Search() {
               <MapView className="w-1/5" parties={parties} />
             </div>
           ) : (
-            parties !== null &&
-            <div>Couldn't find any party</div>
+            parties !== null && <div>Couldn't find any party</div>
           )}
         </div>
       )}

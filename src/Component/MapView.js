@@ -6,14 +6,7 @@ import moment from "moment";
 import ControlPanel from "./ControlPanel";
 
 export const MapView = ({ parties }) => {
-  // const [partiesmap, setParties] = useState([props.state]);
   const [popupInfo, setPopupInfo] = useState(null);
-
-  // useEffect(() => {
-  //   console.log('parties', partiesmap);
-  // }, [partiesmap]);
-
-  // const parties = props.state
 
   const mapRef = useRef();
 

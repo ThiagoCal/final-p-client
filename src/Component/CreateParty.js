@@ -41,9 +41,7 @@ export const CreateParty = (props) => {
   }, [isLogged]);
 
   const handleChange = (e) => {
-    console.log("hello", e.target.value);
     setInput(e.target.value);
-    console.log(input);
   };
 
   // const handleSubmitFile = async (e) => {
@@ -51,12 +49,10 @@ export const CreateParty = (props) => {
   // };
 
   const handleChangePrice = (newValue) => {
-    console.log("onValueChange fired");
     if (newValue === undefined) {
       setPrice("0");
     } else {
       setPrice(newValue);
-      console.log("price", price);
     }
   };
 
@@ -69,9 +65,7 @@ export const CreateParty = (props) => {
 
   const handleCheckboxChangeMusic = (event) => {
     const itemId = parseInt(event.target.value);
-    console.log(itemId);
     const isChecked = event.target.checked;
-    console.log(isChecked);
     setSelectedMusic((prev) => {
       if (isChecked) {
         return prev.concat(itemId);
@@ -82,9 +76,7 @@ export const CreateParty = (props) => {
 
   const handleCheckboxChangeCategory = (event) => {
     const itemId = parseInt(event.target.value);
-    console.log(itemId);
     const isChecked = event.target.checked;
-    console.log(isChecked);
     setSelectedCategory((prev) => {
       if (isChecked) {
         return prev.concat(itemId);
@@ -96,9 +88,6 @@ export const CreateParty = (props) => {
   };
 
   const getCoordinates = async (address) => {
-    console.log(process.env.REACT_APP_OPENCAGE_URL);
-    console.log(process.env.REACT_APP_OPENCAGE_TOKEN);
-    console.log(encodeURIComponent(address));
     try {
       let request_url =
         `${process.env.REACT_APP_OPENCAGE_URL}` +
@@ -111,8 +100,6 @@ export const CreateParty = (props) => {
         "&no_annotations=1";
       try {
         let coordinates = await axios.get(request_url);
-        console.log("coordinates-->", coordinates);
-        console.log("long", coordinates.data.results[0].geometry.lng);
         return coordinates;
       } catch (e) {
         console.log("axios request", e);
@@ -179,8 +166,6 @@ export const CreateParty = (props) => {
             longitude,
             user_id: user.id,
           });
-          console.log("post", post.data);
-          console.log(post.data.party.id);
           setPartyId(post.data.party.id);
           setPartyName(post.data.party.name);
           setAddress(post.data.party.address_name);
@@ -204,7 +189,6 @@ export const CreateParty = (props) => {
           const latitude = data.data.results[0].geometry.lat;
           const longitude = data.data.results[0].geometry.lng;
           const updateData = async () => {
-            console.log("hello updating");
             let post = await axios.put(`/parties/${partyId}`, {
               selectedCategory,
               selectedMusic,
@@ -220,7 +204,6 @@ export const CreateParty = (props) => {
               latitude,
               longitude,
             });
-            console.log("post", post.data);
           };
           updateData();
         }
@@ -231,13 +214,13 @@ export const CreateParty = (props) => {
   useEffect(() => {
     const getCategories = async () => {
       let response = await axios.get("/party_categories_list");
-      console.log(response.data);
+
       setCategoryArray(response.data);
     };
     getCategories();
     const getMusicTypes = async () => {
       let response = await axios.get("/music_types");
-      console.log(response.data);
+
       setMusicTypeArray(response.data);
     };
     getMusicTypes();
@@ -250,7 +233,6 @@ export const CreateParty = (props) => {
   // }
 
   useEffect(() => {
-    console.log(params);
     if (params.id) {
       const getParty = async () => {
         try {

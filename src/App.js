@@ -5,7 +5,7 @@ import CreateParty from "./Component/CreateParty";
 import ControlPanel from "./Component/ControlPanel";
 import Navbar from "./Component/Navbar";
 import CreateUser from "./Component/CreateUser";
-import CreateUser2 from "./Component/CreateUser2";
+import CreateUser2 from "./Component/LoginRegister";
 import RequireAuth from "./auth/RequireAuth";
 import { useEffect } from "react";
 import { Collapse, Dropdown, initTE } from "tw-elements";

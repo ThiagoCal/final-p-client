@@ -43,7 +43,6 @@ const LoginRegister = (props) => {
           email,
           password,
         });
-        console.log(res.data);
         setUser(res.data);
         navigate("/");
       } catch (err) {

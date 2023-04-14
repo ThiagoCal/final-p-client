@@ -12,7 +12,6 @@ const Navbar2 = (props) => {
   const navigate = useNavigate();
 
   const option = () => {
-    console.log("hi");
     setOptions(!options);
   };
 
