@@ -1,33 +1,16 @@
-import React, { useEffect, useState } from 'react'
-import axios from 'axios';
-import Search from './Search';
-import MapView from './MapView';
-import { Link } from 'react-router-dom';
-import { MapProvider } from 'react-map-gl';
-
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import Search from "./Search";
+import MapView from "./MapView";
+import { Link } from "react-router-dom";
+import { MapProvider } from "react-map-gl";
 
 export const Home = (props) => {
-  // const [parties, setParties] = useState('')
-
-
-  useEffect(()=>{
-    // const test = async() => {
-    //   let cookies = await axios.get('/test')
-    //   console.log(cookies.data)
-    // }
-    // test()
-    const verify = async() => {
-      let cookies = await axios.get('/token')
-      console.log(cookies.data)
-    }
-    verify()
-  },[])
-
   return (
     <>
       {/* <div>Home</div> */}
       <MapProvider>
-        <Search/>
+        <Search />
       </MapProvider>
       {/* <MapView state={parties}/> */}
       {/* {
@@ -44,8 +27,7 @@ export const Home = (props) => {
         <></>
       } */}
     </>
-  )
-}
+  );
+};
 
-
-export default Home
+export default Home;

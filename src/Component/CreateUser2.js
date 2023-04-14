@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { AppContext } from "../App";
+import { useAppContext } from "./AppContext";
 
 const LoginRegister = (props) => {
   const [email, setEmail] = useState("");
@@ -12,7 +12,7 @@ const LoginRegister = (props) => {
   const [password2, setPassword2] = useState("");
   const [msg, setMsg] = useState("");
   const navigate = useNavigate();
-  const { setAccessToken } = useContext(AppContext);
+  const { isLogged, setUser } = useAppContext();
 
   useEffect(() => {
     setMsg("");
@@ -44,8 +44,7 @@ const LoginRegister = (props) => {
           password,
         });
         console.log(res.data);
-        setAccessToken(res.data);
-        setMsg(res.data.msg);
+        setUser(res.data);
         navigate("/");
       } catch (err) {
         console.log(err.response.data);
@@ -57,6 +56,13 @@ const LoginRegister = (props) => {
       navigate("/login");
     }
   };
+
+  useEffect(() => {
+    if (isLogged) {
+      navigate("/");
+    }
+  }, [isLogged, navigate]);
+
   return (
     <>
       <h1>{props.title}</h1>
@@ -96,7 +102,7 @@ const LoginRegister = (props) => {
                 Please choose a password.
               </p>
             </div>
-            <div className="flex items-center justify-center">
+            <div className="flex items-center justify-center mb-3">
               {/* justify-between if adding the forgot password */}
               <button
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
@@ -109,7 +115,7 @@ const LoginRegister = (props) => {
                             Forgot Password?
                         </a> */}
             </div>
-            <div className="flex items-center justify-center">
+            <div className="flex items-center justify-center mb-3">
               {/* justify-between if adding the forgot password */}
               <button
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
@@ -120,9 +126,6 @@ const LoginRegister = (props) => {
               </button>
             </div>
           </form>
-          <p className="text-center text-gray-500 text-xs">
-            &copy;2020 Acme Corp. All rights reserved.
-          </p>
         </div>
       ) : (
         <form className="w-full max-w-lg m-auto">

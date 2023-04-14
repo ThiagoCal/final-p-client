@@ -1,12 +1,14 @@
 import React from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import CurrencyInput from "react-currency-input-field";
 import DatePicker from "react-datepicker";
 import axios from "axios";
+import { useAppContext } from "./AppContext";
 
 export const CreateParty = (props) => {
+  const { isLogged, user } = useAppContext();
   //show categories in checkboxes
   const [categoryArray, setCategoryArray] = useState([]);
   const [musicTypeArray, setMusicTypeArray] = useState([]);
@@ -24,45 +26,29 @@ export const CreateParty = (props) => {
   const [price, setPrice] = useState("0");
   const [date, setDate] = useState("");
   const [isActive, setIsActive] = useState(true);
-  const [isLogged, setIsLogged] = useState(true)
   const [partyId, setPartyId] = useState(null);
   const [input, setInput] = useState({});
-  const [msg, setMsg] = useState('')
+  const [msg, setMsg] = useState("");
+
+  const navigate = useNavigate();
 
   const params = useParams();
-  
 
-  useEffect(()=>{
-
-    const verify = async() => {
-      try{
-        let cookies = await axios.get('/token')
-        console.log(cookies.data)
-        console.log(cookies.status)
-        if(cookies.status === 200){
-          setIsLogged(false)
-        }
-      }
-      catch(err){
-        console.log(err)
-        setIsLogged(true)
-      }
+  useEffect(() => {
+    if (isLogged === false) {
+      navigate("/");
     }
-    verify()
+  }, [isLogged]);
 
-  },[])
+  const handleChange = (e) => {
+    console.log("hello", e.target.value);
+    setInput(e.target.value);
+    console.log(input);
+  };
 
-  const handleChange = (e) =>{
-    console.log('hello', e.target.value)
-    setInput(e.target.value)
-    console.log(input)
-  }
-
-  const handleSubmitFile = async(e) =>{
-    e.preventDefault()
-  
-    
-  }
+  // const handleSubmitFile = async (e) => {
+  //   e.preventDefault();
+  // };
 
   const handleChangePrice = (newValue) => {
     console.log("onValueChange fired");
@@ -138,9 +124,9 @@ export const CreateParty = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     if (!partyId) {
-      console.log(
+      console.log({
         selectedCategory,
         selectedMusic,
         address,
@@ -150,30 +136,31 @@ export const CreateParty = (props) => {
         partyName,
         description,
         price,
-        date
-      );
+        date,
+        user_id: user.id,
+      });
       const fAdress = `${address}, ${addressNumber}, ${zipcode}, ${city}`;
       setFullAddress(fAdress);
       getCoordinates(fAdress).then((data) => {
         const latitude = data.data.results[0].geometry.lat;
         const longitude = data.data.results[0].geometry.lng;
 
-        const sendImage = async() => {
-          const dataForm = new FormData()
-          console.log('input submit', input)
-          dataForm.append('myImage',input)
-          console.log('dataform', dataForm)
-          try{
-            let response = await axios.post('/uploadimg', {
-              dataForm
-            })
-            setMsg(response.data.msg)
-          }catch(e){
-            console.log(e)
-            setMsg(e.response.data.msg)
+        const sendImage = async () => {
+          const dataForm = new FormData();
+          console.log("input submit", input);
+          dataForm.append("myImage", input);
+          console.log("dataform", dataForm);
+          try {
+            let response = await axios.post("/uploadimg", {
+              dataForm,
+            });
+            setMsg(response.data.msg);
+          } catch (e) {
+            console.log(e);
+            setMsg(e.response.data.msg);
           }
-        }
-        sendImage()
+        };
+        sendImage();
 
         const sendData = async () => {
           let post = await axios.post("/create_party", {
@@ -190,6 +177,7 @@ export const CreateParty = (props) => {
             date,
             latitude,
             longitude,
+            user_id: user.id,
           });
           console.log("post", post.data);
           console.log(post.data.party.id);
@@ -267,6 +255,10 @@ export const CreateParty = (props) => {
       const getParty = async () => {
         try {
           let post = await axios.get(`/parties/${params.id}`);
+          if (post.data.user_id !== user.id) {
+            navigate("/");
+            return;
+          }
           console.log("post", post);
           setPartyId(post.data.id);
           setPartyName(post.data.name);
@@ -313,7 +305,7 @@ export const CreateParty = (props) => {
               value={partyName}
               placeholder="Electric Nights"
               onChange={(e) => setPartyName(e.target.value)}
-              disabled={isLogged}
+              disabled={!isLogged}
             />
             {/* {
             !partyName && <p className="text-red-500 text-xs italic">Please fill out this field.</p>
@@ -435,7 +427,13 @@ export const CreateParty = (props) => {
             >
               Attach the party Image
             </label>
-            <input type="file" id="grid-image" name="myImage" onChange={(e)=>handleChange(e)} accept="image/*"/>
+            <input
+              type="file"
+              id="grid-image"
+              name="myImage"
+              onChange={(e) => handleChange(e)}
+              accept="image/*"
+            />
           </div>
           {/* Empty div for spacing */}
           {/* <div className="flex flex-col justify-center mt-2"></div> */}
@@ -467,7 +465,9 @@ export const CreateParty = (props) => {
         <div className="w-full  flex-wrap -mx-3 ml-2 mb-6">
           {/* Party category checkboxes */}
           <div className="flex-col w-full mt-2">
-            <span className="uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Choose your party category:</span>
+            <span className="uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+              Choose your party category:
+            </span>
             {categoryArray.map((elem) => {
               return (
                 <div className="flex-col" key={elem.category_id}>
@@ -485,7 +485,9 @@ export const CreateParty = (props) => {
             })}
           </div>
           <div className="flex-col w-full mt-2">
-            <span className="uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Choose the music category from your party:</span>
+            <span className="uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+              Choose the music category from your party:
+            </span>
             {musicTypeArray.map((elem) => {
               return (
                 <div className="flex-col">

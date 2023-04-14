@@ -6,54 +6,40 @@ import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
 import axios from "axios";
 
-
 export const CreateUser = (props) => {
-  
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('')
-  const [isAdmin, setIsAdmin] = useState('')
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isAdmin, setIsAdmin] = useState("");
   const [userId, setUserId] = useState(null);
-  // const [msg, setMsg] = useState('');
-  // const navigate = useNavigate();
-  // const { setAccessToken } = useContext(AppContext);
 
   const params = useParams();
-
-  useEffect(() => {
-    // setMsg('')
-  }, [props.title])
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!userId) {
-      console.log(
-        firstName,
-        lastName,
-        email,
-        username
-      );
-        const sendData = async () => {
-          let post = await axios.post("/create_user", {
-            firstName,
-            lastName,
-            email,
-            username,
-            password
-          });
-          console.log("post", post.data);
-          console.log(post.data.party.id);
-          setUserId(post.data.user.id);
-          setFirstName(post.data.user.firstName);
-          setLastName(post.data.usere.lastName);
-          setUsername(post.data.user.username);
-          setEmail(post.data.user.email);
-          setPassword(post.data.user.password);
-          setIsAdmin(post.data.user.isAdmin);
-        };
-        sendData();
+      console.log(firstName, lastName, email, username);
+      const sendData = async () => {
+        let post = await axios.post("/create_user", {
+          firstName,
+          lastName,
+          email,
+          username,
+          password,
+        });
+        console.log("post", post.data);
+        console.log(post.data.party.id);
+        setUserId(post.data.user.id);
+        setFirstName(post.data.user.firstName);
+        setLastName(post.data.usere.lastName);
+        setUsername(post.data.user.username);
+        setEmail(post.data.user.email);
+        setPassword(post.data.user.password);
+        setIsAdmin(post.data.user.isAdmin);
+      };
+      sendData();
     } else {
       const updateData = async () => {
         console.log("hello updating");
@@ -62,13 +48,13 @@ export const CreateUser = (props) => {
           lastName,
           email,
           username,
-          password
+          password,
         });
         console.log("post", post.data);
       };
       updateData();
-      }
     }
+  };
 
   // useEffect(() => {
   //   const getCategories = async () => {
@@ -193,7 +179,7 @@ export const CreateUser = (props) => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-        </div>  
+        </div>
         <div className="flex justify-center mb-5">
           <button
             type="submit"
@@ -204,8 +190,7 @@ export const CreateUser = (props) => {
         </div>
       </form>
     </div>
-  )
-}
-
+  );
+};
 
 export default CreateUser;
