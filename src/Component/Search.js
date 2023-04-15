@@ -11,18 +11,44 @@ function Search() {
   const [selectedDate, setSelectedDate] = useState(null);
   const [city, setCity] = useState("");
   const [venue, setVenue] = useState("");
-  // const [address, setAddress] = useState("");
+  const [partyCategory, setCategoryArray] = useState([]);
+  const [musicCategory, setMusicTypeArray] = useState([]);
   const [parties, setParties] = useState(null);
-  // const [markers, setMarkers] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [musicId, setMusicId] = useState([]);
+  const [categoryId, setCategoryId] = useState([]);
   let date = new Date();
   let todayDate = moment(date).format("DD-MM-YYYY");
+
+  useEffect(() => {
+    const getCategories = async () => {
+      let response = await axios.get("/party_categories_list");
+      console.log("party categories", response.data);
+      setCategoryArray(response.data);
+    };
+    getCategories();
+    const getMusicTypes = async () => {
+      let response = await axios.get("/music_types");
+
+      setMusicTypeArray(response.data);
+    };
+    getMusicTypes();
+  }, []);
 
   const handleSearch = async () => {
     setLoading(true);
     try {
+      console.log("categoryID", categoryId);
+      console.log("MUSIC", musicId);
       const response = await axios.get(`http://localhost:3800/parties_search`, {
-        params: { name, party_date: selectedDate, city, venue },
+        params: {
+          name,
+          party_date: selectedDate,
+          city,
+          venue,
+          musicId,
+          categoryId,
+        },
       });
       setParties(response.data);
       setLoading(false);
@@ -32,6 +58,21 @@ function Search() {
     }
   };
 
+  // function handleDateChange(e) {
+  //   const date = new Date(e);
+  //   const utcDate = new Date(
+  //     Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
+  //   );
+  //   setSelectedDate(utcDate);
+  // }
+  // function handleInputChange(e) {
+  //   const date = new Date(e);
+  //   const utcDate = new Date(
+  //     Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
+  //   );
+  //   setSelectedDate(utcDate ? utcDate : null);
+  // }
+
   const handleSelectDate = (date1) => {
     const date = new Date(date1);
     const utcDate = new Date(
@@ -39,6 +80,35 @@ function Search() {
     );
     if (utcDate) {
       setSelectedDate(utcDate);
+    } else {
+      setSelectedDate(null);
+      return;
+    }
+  };
+
+  const handlePartyCategoryChange = (e) => {
+    console.log(e.target.value);
+    if (e.target.options.selectedIndex - 1 === -1) {
+      setCategoryId(null);
+      return;
+    } else {
+      let selectedCategory = e.target.options.selectedIndex - 1;
+      selectedCategory = selectedCategory.toString();
+      console.log(selectedCategory);
+      setCategoryId(selectedCategory);
+    }
+  };
+
+  const handleMusicCategoryChange = (e) => {
+    console.log(e.target.options.selectedIndex - 1);
+    if (e.target.options.selectedIndex - 1 === -1) {
+      // console.log("hi");
+      setMusicId(null);
+      return;
+    } else {
+      let selectedCategory = e.target.options.selectedIndex - 1;
+      selectedCategory = selectedCategory.toString();
+      setMusicId(selectedCategory);
     }
   };
 
@@ -102,22 +172,76 @@ function Search() {
             onChange={(e) => setVenue(e.target.value)}
           />
         </div>
-        {/* 
-            <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-music">
-              Music Category
-            </label>
-            <div class="relative">
-              <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-music">
-                <option>New Mexico</option>
-                <option>Missouri</option>
-                <option>Texas</option>
-              </select>
-              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-              </div>
+      </div>
+      <div className="flex flex-wrap justify-center">
+        <div class="w-1/5 md:w-1/5 px-3 mb-6 md:mb-0">
+          <label
+            class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+            for="grid-music"
+          >
+            Party Category
+          </label>
+          <div class="relative md:w-1/3">
+            <select
+              class="block appearance-none  bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 8pr- rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              id="grid-music"
+              onChange={handlePartyCategoryChange}
+            >
+              <option value="">All Categories</option>
+              {partyCategory.map((category) => {
+                return (
+                  <option key={category.category_id}>
+                    {category.category_name}
+                  </option>
+                );
+              })}
+            </select>
+            <div class="pointer-events-none absolute inset-y-0 left-28 flex items-center px-2 text-gray-700">
+              <svg
+                class="fill-current h-4 w-4"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+              >
+                <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+              </svg>
             </div>
-             */}
+          </div>
+        </div>
+
+        <div class="w-1/5 md:w-1/5 px-3 mb-6 md:mb-0">
+          <label
+            class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+            for="grid-music"
+          >
+            Music Category
+          </label>
+          <div class="relative md:w-1/3">
+            <select
+              class="block appearance-none  bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 8pr- rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              id="grid-music"
+              onChange={handleMusicCategoryChange}
+            >
+              <option value="">All Categories</option>
+              {partyCategory.map((category) => {
+                return (
+                  <option key={category.category_id}>
+                    {category.category_name}
+                  </option>
+                );
+              })}
+            </select>
+            <div class="pointer-events-none absolute inset-y-0 left-28 flex items-center px-2 text-gray-700">
+              <svg
+                class="fill-current h-4 w-4"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+              >
+                <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+              </svg>
+            </div>
+          </div>
+        </div>
+
         <div className="w-full md:w-1/5 px-2 mb-4 md:mb-0">
           <label
             className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
@@ -130,13 +254,17 @@ function Search() {
             className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             defaultDate={new Date()}
             placeholderText={todayDate}
-            onChange={(date) => handleSelectDate(date)}
-            dateFormat="yyyy-MM-dd"
+            onChange={(date) => {
+              handleSelectDate(date);
+            }}
+            dateFormat="dd/MM/yyyy"
             minDate={new Date()}
             timeZone="Israel"
+            isClearable={true}
           />
         </div>
       </div>
+
       <div className="flex justify-center mt-2">
         <button
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"

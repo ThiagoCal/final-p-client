@@ -102,23 +102,7 @@ export const CreateParty = (props) => {
         }
       );
       console.log("request url", response);
-      // let coordinates = await axios.get(request_url);
       return response;
-      // let request_url =
-      //   `${process.env.REACT_APP_OPENCAGE_URL}` +
-      //   "?" +
-      //   "key=" +
-      //   process.env.REACT_APP_OPENCAGE_TOKEN +
-      //   "&q=" +
-      //   encodeURIComponent(address) +
-      //   "&pretty=1" +
-      //   "&no_annotations=1";
-      // try {
-      //   console.log('request url',request_url)
-
-      // } catch (e) {
-      //   console.log("axios request", e);
-      // }
     } catch (e) {
       console.log("getCoordinates===>", e);
     }
