@@ -8,22 +8,21 @@ import { useMap } from "react-map-gl";
 
 function Search() {
   const [name, setName] = useState("");
-  //   const [partyDate, setPartyDate] = useState('');
   const [selectedDate, setSelectedDate] = useState(null);
   const [city, setCity] = useState("");
-  const [address, setAddress] = useState("");
+  const [venue, setVenue] = useState("");
+  // const [address, setAddress] = useState("");
   const [parties, setParties] = useState(null);
-  const [markers, setMarkers] = useState([]);
+  // const [markers, setMarkers] = useState([]);
   const [loading, setLoading] = useState(false);
   let date = new Date();
   let todayDate = moment(date).format("DD-MM-YYYY");
 
-  // const [markers, setMarkers] = useState([])
   const handleSearch = async () => {
     setLoading(true);
     try {
       const response = await axios.get(`http://localhost:3800/parties_search`, {
-        params: { name, party_date: selectedDate, city, address },
+        params: { name, party_date: selectedDate, city, venue },
       });
       setParties(response.data);
       setLoading(false);
@@ -90,19 +89,35 @@ function Search() {
         <div className="w-full md:w-1/5 px-2 mb-4 md:mb-0">
           <label
             className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-            htmlFor="address"
+            htmlFor="venue"
           >
-            Address
+            Venue
           </label>
           <input
             type="text"
-            id="address"
+            id="venue"
             className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            placeholder="Enter address"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
+            placeholder="Enter venue"
+            value={city}
+            onChange={(e) => setVenue(e.target.value)}
           />
         </div>
+        {/* 
+            <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-music">
+              Music Category
+            </label>
+            <div class="relative">
+              <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-music">
+                <option>New Mexico</option>
+                <option>Missouri</option>
+                <option>Texas</option>
+              </select>
+              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+              </div>
+            </div>
+             */}
         <div className="w-full md:w-1/5 px-2 mb-4 md:mb-0">
           <label
             className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
@@ -133,24 +148,30 @@ function Search() {
       </div>
 
       {loading ? (
-        <div> Loading ...</div>
+        <div key={"loading"}> Loading ...</div>
       ) : (
-        <div className="w-full mt-5">
+        <div className="w-full mt-5" key={"container"}>
           {parties?.length > 0 ? (
             <div className="flex">
               <div className="flex flex-col">
                 {parties.map((party) => {
                   return (
-                    <div className="flex flex-col justify-center w-11/12 mr-1 mb-2">
+                    <div
+                      className="flex flex-col justify-center w-11/12 mr-1 mb-2"
+                      key={party.id}
+                    >
                       <div
                         className="relative flex flex-col md:flex-row md:space-x-5 space-y-3 md:space-y-0 rounded-xl shadow-lg p-3 max-w-xs md:max-w-3xl mx-auto border border-white bg-white"
                         onClick={() => handlePartyCardClick(party)}
+                        key={party.id}
                       >
                         <div className="w-full md:w-1/3 bg-white grid place-items-center">
                           <img
-                            src="https://images.pexels.com/photos/4381392/pexels-photo-4381392.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-                            alt="tailwind logo"
-                            className="rounded-xl"
+                            src={
+                              "https://images.pexels.com/photos/4381392/pexels-photo-4381392.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+                            }
+                            alt={"tailwind logo"}
+                            className={"rounded-xl"}
                           />
                         </div>
                         <div className="w-full md:w-2/3 bg-white flex flex-col space-y-2 p-3">
@@ -163,7 +184,7 @@ function Search() {
                             </svg> */}
                               <p className="text-gray-600 font-bold text-xs ml-1">
                                 {moment(party.party_date).format(
-                                  "MMMM Do YYYY, h:mm:ss a"
+                                  "MMMM Do YYYY, h:mm a"
                                 )}
                                 {/* <span className="text-gray-500 font-normal">(76 reviews)</span> */}
                               </p>
@@ -176,9 +197,9 @@ function Search() {
                                 fill="currentColor"
                               >
                                 <path
-                                  fill-rule="evenodd"
+                                  fillRule={"evenodd"}
                                   d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
-                                  clip-rule="evenodd"
+                                  clipRule={"evenodd"}
                                 />
                               </svg>
                             </div>
@@ -191,6 +212,9 @@ function Search() {
                           </h3>
                           <p className="md:text-m text-gray-500 text-base">
                             {party.description}
+                          </p>
+                          <p className="md:text-m text-gray-500 text-base">
+                            {party.address}
                           </p>
                           <p className="text-l font-black text-gray-800">
                             {party.price}

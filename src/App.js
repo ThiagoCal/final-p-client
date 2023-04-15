@@ -4,8 +4,9 @@ import Home from "./Component/Home";
 import CreateParty from "./Component/CreateParty";
 import ControlPanel from "./Component/ControlPanel";
 import Navbar from "./Component/Navbar";
-import CreateUser from "./Component/CreateUser";
-import CreateUser2 from "./Component/LoginRegister";
+// import CreateUser from "./Component/CreateUser";
+import LoginRegister from "./Component/LoginRegister";
+import UserParties from "./Component/UserParties";
 import RequireAuth from "./auth/RequireAuth";
 import { useEffect } from "react";
 import { Collapse, Dropdown, initTE } from "tw-elements";
@@ -22,10 +23,10 @@ function App() {
           <Navbar />
           <Routes>
             <Route path="/" element={<Home />}></Route>
-            <Route path="/login" element={<CreateUser2 title="Login" />} />
+            <Route path="/login" element={<LoginRegister title="Login" />} />
             <Route
               path="/register"
-              element={<CreateUser2 title="Register" />}
+              element={<LoginRegister title="Register" />}
             />
             <Route
               path="/create-party"
@@ -35,7 +36,15 @@ function App() {
                 </RequireAuth>
               }
             ></Route>
-            <Route path="/create-user" element={<CreateUser2 />}></Route>
+            <Route
+              path="/user-parties"
+              element={
+                <RequireAuth>
+                  <UserParties />
+                </RequireAuth>
+              }
+            ></Route>
+            {/* <Route path="/create-user" element={<CreateUser2 />}></Route> */}
             <Route
               path="/update-party/:id"
               element={
@@ -44,7 +53,7 @@ function App() {
                 </RequireAuth>
               }
             ></Route>
-            <Route path="/login" element={<CreateUser2 />}></Route>
+            {/* <Route path="/login" element={<CreateUser2 />}></Route> */}
             <Route path="/control" element={<ControlPanel />}></Route>
           </Routes>
         </div>

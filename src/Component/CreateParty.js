@@ -18,6 +18,7 @@ export const CreateParty = (props) => {
   const [selectedCategory, setSelectedCategory] = useState([]);
   const [fullAddress, setFullAddress] = useState("");
   const [address, setAddress] = useState("");
+  const [venue, setVenue] = useState("");
   const [addressNumber, setAddressNumber] = useState("");
   const [partyName, setPartyName] = useState("");
   const [city, setCity] = useState("");
@@ -34,11 +35,11 @@ export const CreateParty = (props) => {
 
   const params = useParams();
 
-  useEffect(() => {
-    if (isLogged === false) {
-      navigate("/");
-    }
-  }, [isLogged]);
+  // useEffect(() => {
+  //   if (isLogged === false) {
+  //     navigate("/");
+  //   }
+  // }, [isLogged]);
 
   const handleChange = (e) => {
     setInput(e.target.value);
@@ -88,22 +89,36 @@ export const CreateParty = (props) => {
   };
 
   const getCoordinates = async (address) => {
+    console.log(address);
     try {
-      let request_url =
-        `${process.env.REACT_APP_OPENCAGE_URL}` +
-        "?" +
-        "key=" +
-        process.env.REACT_APP_OPENCAGE_TOKEN +
-        "&q=" +
-        encodeURIComponent(address) +
-        "&pretty=1" +
-        "&no_annotations=1";
-      try {
-        let coordinates = await axios.get(request_url);
-        return coordinates;
-      } catch (e) {
-        console.log("axios request", e);
-      }
+      const response = await axios.get(
+        "https://api.opencagedata.com/geocode/v1/json? ",
+        {
+          params: {
+            key: process.env.REACT_APP_OPENCAGE_TOKEN,
+            q: address,
+            language: "en",
+          },
+        }
+      );
+      console.log("request url", response);
+      // let coordinates = await axios.get(request_url);
+      return response;
+      // let request_url =
+      //   `${process.env.REACT_APP_OPENCAGE_URL}` +
+      //   "?" +
+      //   "key=" +
+      //   process.env.REACT_APP_OPENCAGE_TOKEN +
+      //   "&q=" +
+      //   encodeURIComponent(address) +
+      //   "&pretty=1" +
+      //   "&no_annotations=1";
+      // try {
+      //   console.log('request url',request_url)
+
+      // } catch (e) {
+      //   console.log("axios request", e);
+      // }
     } catch (e) {
       console.log("getCoordinates===>", e);
     }
@@ -118,6 +133,7 @@ export const CreateParty = (props) => {
         selectedMusic,
         address,
         addressNumber,
+        venue,
         city,
         zipcode,
         partyName,
@@ -126,7 +142,7 @@ export const CreateParty = (props) => {
         date,
         user_id: user.id,
       });
-      const fAdress = `${address}, ${addressNumber}, ${zipcode}, ${city}`;
+      const fAdress = `${address} ${addressNumber}, ${city}, ${zipcode}`;
       setFullAddress(fAdress);
       getCoordinates(fAdress).then((data) => {
         const latitude = data.data.results[0].geometry.lat;
@@ -154,6 +170,7 @@ export const CreateParty = (props) => {
             selectedCategory,
             selectedMusic,
             fullAddress: fAdress,
+            venue,
             address,
             addressNumber,
             city,
@@ -168,6 +185,7 @@ export const CreateParty = (props) => {
           });
           setPartyId(post.data.party.id);
           setPartyName(post.data.party.name);
+          setVenue(post.data.party.venue);
           setAddress(post.data.party.address_name);
           setAddressNumber(post.data.party.address_number);
           setZipcode(post.data.party.zipcode);
@@ -183,8 +201,8 @@ export const CreateParty = (props) => {
         sendData();
       });
     } else {
-      setFullAddress(`${address}, ${addressNumber}, ${zipcode}, ${city}`);
-      getCoordinates(`${address}, ${addressNumber}, ${zipcode}, ${city}`).then(
+      setFullAddress(`${address} ${addressNumber}, ${city} ${zipcode}`);
+      getCoordinates(`${address} ${addressNumber}, ${city} ${zipcode}`).then(
         (data) => {
           const latitude = data.data.results[0].geometry.lat;
           const longitude = data.data.results[0].geometry.lng;
@@ -193,6 +211,7 @@ export const CreateParty = (props) => {
               selectedCategory,
               selectedMusic,
               fullAddress,
+              venue,
               address,
               addressNumber,
               city,
@@ -226,12 +245,6 @@ export const CreateParty = (props) => {
     getMusicTypes();
   }, []);
 
-  // const handleUpdateCheckbox = async() =>{
-  //   let musicSelected = selectedCategory.map(music =>{
-
-  //   })
-  // }
-
   useEffect(() => {
     if (params.id) {
       const getParty = async () => {
@@ -244,6 +257,7 @@ export const CreateParty = (props) => {
           console.log("post", post);
           setPartyId(post.data.id);
           setPartyName(post.data.name);
+          setVenue(post.data.venue);
           setAddress(post.data.address_name);
           setAddressNumber(post.data.address_number);
           setZipcode(post.data.zipcode);
@@ -292,6 +306,22 @@ export const CreateParty = (props) => {
             {/* {
             !partyName && <p className="text-red-500 text-xs italic">Please fill out this field.</p>
           } */}
+          </div>
+          <div className="w-full px-3 mb-4">
+            <label
+              className="block uppercase tracking-wide text-gray-700 text-xs font-bold p-1 mb-2"
+              htmlFor="grid-venue"
+            >
+              Venue
+            </label>
+            <input
+              className="appearance-none block w-full bg-white border border-gray-300 rounded py-3 px-4 leading-tight focus:outline-none focus:border-indigo-500 focus:shadow-outline-indigo"
+              id="grid-venue"
+              type="text"
+              value={venue}
+              placeholder="Name of the venue"
+              onChange={(e) => setVenue(e.target.value)}
+            />
           </div>
           <div className="w-full px-3 mb-4">
             <label
@@ -499,23 +529,5 @@ export const CreateParty = (props) => {
     </div>
   );
 };
-
-{
-  /* 
-            <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
-              State
-            </label>
-            <div class="relative">
-              <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
-                <option>New Mexico</option>
-                <option>Missouri</option>
-                <option>Texas</option>
-              </select>
-              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-              </div>
-            </div> */
-}
 
 export default CreateParty;

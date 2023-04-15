@@ -15,6 +15,7 @@ export const MapView = ({ parties }) => {
   }, []);
 
   if (!parties || parties.length === 0) return null;
+  console.log(parties);
 
   return (
     <div style={{ position: "relative" }}>
@@ -29,6 +30,7 @@ export const MapView = ({ parties }) => {
         mapStyle="mapbox://styles/mapbox/streets-v9"
         mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
         ref={mapRef}
+        key={"map"}
       >
         {parties.length > 0 ? (
           parties.map((party) => (
@@ -62,9 +64,11 @@ export const MapView = ({ parties }) => {
                   latitude={Number(popupInfo.latitude)}
                   onClose={() => setPopupInfo(null)}
                 >
-                  <div>
-                    {popupInfo.name},{" "}
-                    {moment(popupInfo.party_date).format("DD-MM-YYYY HH:MM")} |{" "}
+                  <div key={popupInfo.name}>
+                    {popupInfo.name}
+                    {moment(popupInfo.party_date).format(
+                      "DD-MM-YYYY HH:MM"
+                    )} |{" "}
                     <a
                       target="_new"
                       href={`http://en.wikipedia.org/w/index.php?title=Special:Search&search=${popupInfo.city}`}
@@ -72,7 +76,11 @@ export const MapView = ({ parties }) => {
                       {popupInfo.name}
                     </a>
                   </div>
-                  <img width="100%" src={popupInfo.image} />
+                  <img
+                    width="100%"
+                    src={popupInfo.image}
+                    alt={popupInfo.name}
+                  />
                 </Popup>
               )}
             </>
@@ -86,12 +94,13 @@ export const MapView = ({ parties }) => {
           position: "absolute",
           top: 10,
           right: 10,
-          zIndex: 1,
+          // zIndex: 1,
           backgroundColor: "white",
           padding: "1em",
           opacity: 0.8,
           borderRadius: "10px",
         }}
+        key={"city-select"}
       >
         <ControlPanel onSelectCity={onSelectCity} />
       </div>
