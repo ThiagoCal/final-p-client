@@ -30,24 +30,23 @@ export const CreateParty = (props) => {
   const [partyId, setPartyId] = useState(null);
   const [input, setInput] = useState({});
   const [msg, setMsg] = useState("");
+  const [fileName, setFileName] = useState(null);
+  const [imgData, setImgData] = useState(null);
 
   const navigate = useNavigate();
 
   const params = useParams();
 
-  // useEffect(() => {
-  //   if (isLogged === false) {
-  //     navigate("/");
-  //   }
-  // }, [isLogged]);
-
-  const handleChange = (e) => {
-    setInput(e.target.value);
+  const handleChangeImage = (e) => {
+    console.log("hello", e.target.files[0]);
+    setInput(e.target.files[0]);
+    console.log(input);
+    // const reader = new FileReader();
+    // reader.addEventListener("load", () => {
+    //   setImgData(reader.result);
+    // });
+    // reader.readAsDataURL(e.target.files[0]);
   };
-
-  // const handleSubmitFile = async (e) => {
-  //   e.preventDefault();
-  // };
 
   const handleChangePrice = (newValue) => {
     if (newValue === undefined) {
@@ -60,7 +59,6 @@ export const CreateParty = (props) => {
   const filterPassedTime = (time) => {
     const currentDate = new Date();
     const selectedDate = new Date(time);
-
     return currentDate.getTime() < selectedDate.getTime();
   };
 
@@ -108,6 +106,25 @@ export const CreateParty = (props) => {
     }
   };
 
+  const sendImage = async () => {
+    // console.log("input", input);
+    const dataForm = new FormData();
+    // console.log("input submit", input);
+    dataForm.append("image", input);
+    // console.log("dataform", dataForm.get("image"));
+    try {
+      let response = await axios.post("/uploadimg", dataForm);
+      console.log("response", response.data);
+      console.log("filename", response.data.filename);
+      // setFileName(response.data.filename);
+      setMsg(response.data.msg);
+      return response.data.filename;
+    } catch (e) {
+      console.log(e);
+      setMsg(e.response.data.msg);
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -132,28 +149,13 @@ export const CreateParty = (props) => {
         const latitude = data.data.results[0].geometry.lat;
         const longitude = data.data.results[0].geometry.lng;
 
-        const sendImage = async () => {
-          const dataForm = new FormData();
-          console.log("input submit", input);
-          dataForm.append("myImage", input);
-          console.log("dataform", dataForm);
-          try {
-            let response = await axios.post("/uploadimg", {
-              dataForm,
-            });
-            setMsg(response.data.msg);
-          } catch (e) {
-            console.log(e);
-            setMsg(e.response.data.msg);
-          }
-        };
-        sendImage();
-
         const sendData = async () => {
+          const file_name = await sendImage();
           let post = await axios.post("/create_party", {
             selectedCategory,
             selectedMusic,
             fullAddress: fAdress,
+            fileName: file_name,
             venue,
             address,
             addressNumber,
@@ -170,12 +172,12 @@ export const CreateParty = (props) => {
           setPartyId(post.data.party.id);
           setPartyName(post.data.party.name);
           setVenue(post.data.party.venue);
+          setFileName(post.data.party.fileName);
           setAddress(post.data.party.address_name);
           setAddressNumber(post.data.party.address_number);
           setZipcode(post.data.party.zipcode);
           setCity(post.data.party.city);
           setDescription(post.data.party.description);
-          // setDate(post.data.party.party_date)
           setPrice(post.data.party.price);
           setIsActive(post.data.party.is_active);
           setFullAddress(post.data.party.address);
@@ -191,10 +193,13 @@ export const CreateParty = (props) => {
           const latitude = data.data.results[0].geometry.lat;
           const longitude = data.data.results[0].geometry.lng;
           const updateData = async () => {
+            const file_name = await sendImage();
+            console.log("update filename", file_name);
             let post = await axios.put(`/parties/${partyId}`, {
               selectedCategory,
               selectedMusic,
               fullAddress,
+              fileName: file_name,
               venue,
               address,
               addressNumber,
@@ -233,26 +238,27 @@ export const CreateParty = (props) => {
     if (params.id) {
       const getParty = async () => {
         try {
-          let post = await axios.get(`/parties/${params.id}`);
-          if (post.data.user_id !== user.id) {
+          let get = await axios.get(`/parties/${params.id}`);
+          if (get.data.user_id !== user.id) {
             navigate("/");
             return;
           }
-          console.log("post", post);
-          setPartyId(post.data.id);
-          setPartyName(post.data.name);
-          setVenue(post.data.venue);
-          setAddress(post.data.address_name);
-          setAddressNumber(post.data.address_number);
-          setZipcode(post.data.zipcode);
-          setCity(post.data.city);
-          setDescription(post.data.description);
-          setDate(new Date(post.data.party_date));
-          setPrice(post.data.price);
-          setIsActive(post.data.is_active);
-          setFullAddress(post.data.address);
-          setSelectedMusic(post.data.musicid);
-          setSelectedCategory(post.data.categoryid);
+          console.log("get", get);
+          setPartyId(get.data.id);
+          setPartyName(get.data.name);
+          setVenue(get.data.venue);
+          setFileName(get.data.image_path);
+          setAddress(get.data.address_name);
+          setAddressNumber(get.data.address_number);
+          setZipcode(get.data.zipcode);
+          setCity(get.data.city);
+          setDescription(get.data.description);
+          setDate(new Date(get.data.party_date));
+          setPrice(get.data.price);
+          setIsActive(get.data.is_active);
+          setFullAddress(get.data.address);
+          setSelectedMusic(get.data.musicid);
+          setSelectedCategory(get.data.categoryid);
         } catch (e) {
           console.log(e);
         }
@@ -427,12 +433,23 @@ export const CreateParty = (props) => {
               type="file"
               id="grid-image"
               name="myImage"
-              onChange={(e) => handleChange(e)}
+              onChange={(e) => handleChangeImage(e)}
               accept="image/*"
             />
+            {/* <div className="previewProfilePic">
+              <img className="playerProfilePic_home_tile" src={imgData} />
+            </div> */}
+            {fileName ? (
+              <div>
+                <img
+                  src={`${process.env.REACT_APP_SERVERURL}${fileName}`}
+                  maxWidth={"300px"}
+                ></img>
+              </div>
+            ) : (
+              <></>
+            )}
           </div>
-          {/* Empty div for spacing */}
-          {/* <div className="flex flex-col justify-center mt-2"></div> */}
         </div>
 
         <div className="flex flex-wrap -mx-3 mb-6">

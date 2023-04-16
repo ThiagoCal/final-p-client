@@ -40,9 +40,7 @@ export default function UserParties() {
                     <a href="#">
                       <img
                         className={"rounded-t-lg"}
-                        src={
-                          "https://flowbite.com/docs/images/blog/image-1.jpg"
-                        }
+                        src={`${process.env.REACT_APP_SERVERURL}${party.image_path}`}
                         alt={""}
                       />
                     </a>

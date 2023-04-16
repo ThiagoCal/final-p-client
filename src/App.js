@@ -11,6 +11,8 @@ import RequireAuth from "./auth/RequireAuth";
 import { useEffect } from "react";
 import { Collapse, Dropdown, initTE } from "tw-elements";
 import { AppContextProvider } from "./Component/AppContext";
+import FileUpload from "./Component/FileUpload";
+import UserProfile from "./Component/UserProfile";
 
 function App() {
   useEffect(() => {
@@ -53,8 +55,17 @@ function App() {
                 </RequireAuth>
               }
             ></Route>
+            <Route
+              path="/update-user/:id"
+              element={
+                <RequireAuth>
+                  <UserProfile />
+                </RequireAuth>
+              }
+            ></Route>
             {/* <Route path="/login" element={<CreateUser2 />}></Route> */}
             <Route path="/control" element={<ControlPanel />}></Route>
+            <Route path="/upload" element={<FileUpload />}></Route>
           </Routes>
         </div>
       </BrowserRouter>

@@ -174,14 +174,14 @@ function Search() {
         </div>
       </div>
       <div className="flex flex-wrap justify-center">
-        <div class="w-1/5 md:w-1/5 px-3 mb-6 md:mb-0">
+        <div class="w-full md:w-1/5 px-2 mb-4 md:mb-0">
           <label
             class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
             for="grid-music"
           >
             Party Category
           </label>
-          <div class="relative md:w-1/3">
+          <div class="relative">
             <select
               class="block appearance-none  bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 8pr- rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               id="grid-music"
@@ -208,7 +208,7 @@ function Search() {
           </div>
         </div>
 
-        <div class="w-1/5 md:w-1/5 px-3 mb-6 md:mb-0">
+        <div class="w-full md:w-1/5 px-2 mb-4 md:mb-0">
           <label
             class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
             for="grid-music"
@@ -295,9 +295,7 @@ function Search() {
                       >
                         <div className="w-full md:w-1/3 bg-white grid place-items-center">
                           <img
-                            src={
-                              "https://images.pexels.com/photos/4381392/pexels-photo-4381392.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-                            }
+                            src={`${process.env.REACT_APP_SERVERURL}${party.image_path}`}
                             alt={"tailwind logo"}
                             className={"rounded-xl"}
                           />
