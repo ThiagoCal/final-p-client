@@ -6,19 +6,16 @@ export function AppContextProvider({ children }) {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const check = async () => {
-      const verify = async () => {
-        try {
-          let response = await axios.get("/token");
-          console.log("res", response.data.user);
-          setUser(response.data.user);
-        } catch (err) {
-          console.log(err);
-        }
-      };
-      await verify();
+    const verify = async () => {
+      try {
+        let response = await axios.get("/token");
+        console.log("res", response.data.user);
+        setUser(response.data.user);
+      } catch (err) {
+        console.log(err);
+      }
     };
-    check();
+    verify();
   }, []);
 
   return (

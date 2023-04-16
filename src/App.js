@@ -13,6 +13,7 @@ import { Collapse, Dropdown, initTE } from "tw-elements";
 import { AppContextProvider } from "./Component/AppContext";
 import FileUpload from "./Component/FileUpload";
 import UserProfile from "./Component/UserProfile";
+import Party from "./Component/Party";
 
 function App() {
   useEffect(() => {
@@ -30,6 +31,7 @@ function App() {
               path="/register"
               element={<LoginRegister title="Register" />}
             />
+            <Route path="/party/:id" element={<Party />} />
             <Route
               path="/create-party"
               element={

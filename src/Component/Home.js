@@ -4,10 +4,12 @@ import Search from "./Search";
 import MapView from "./MapView";
 import { Link } from "react-router-dom";
 import { MapProvider } from "react-map-gl";
+import Cta from "./Cta";
 
 export const Home = (props) => {
   return (
     <>
+      <Cta />
       {/* <div>Home</div> */}
       <MapProvider>
         <Search />

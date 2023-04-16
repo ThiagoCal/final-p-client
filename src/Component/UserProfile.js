@@ -26,7 +26,7 @@ export default function UserProfile() {
         });
         console.log(res.data);
         setUser(res.data);
-        navigate("/login");
+        navigate("/");
       } catch (err) {
         console.log(err.response.data);
         setMsg(err.response.data.msg);
@@ -46,16 +46,14 @@ export default function UserProfile() {
             First Name
           </label>
           <input
-            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+            className="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
             id="grid-first-name"
             type="text"
+            required
             value={firstName}
             placeholder="First Name"
             onChange={(e) => setFirstName(e.target.value)}
           />
-          <p className="text-red-500 text-xs italic">
-            Please fill out this field.
-          </p>
         </div>
         <div className="w-full md:w-1/2 px-3">
           <label
@@ -65,9 +63,10 @@ export default function UserProfile() {
             Last Name
           </label>
           <input
-            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             id="grid-last-name"
             type="text"
+            required
             value={lastName}
             placeholder="Last Name"
             onChange={(e) => setLastName(e.target.value)}
@@ -83,16 +82,14 @@ export default function UserProfile() {
             Username
           </label>
           <input
-            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+            className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
             id="grid-username"
             type="text"
+            required
             value={username}
             placeholder="Username"
             onChange={(e) => setUsername(e.target.value)}
           />
-          <p className="text-red-500 text-xs italic">
-            Please fill out this field.
-          </p>
         </div>
         <div className="w-full md:w-1/2 px-3">
           <label
@@ -102,9 +99,10 @@ export default function UserProfile() {
             Email
           </label>
           <input
-            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             id="grid-email"
-            type="text"
+            type="email"
+            required
             value={email}
             placeholder="example@email.com"
             onChange={(e) => setEmail(e.target.value)}
@@ -113,7 +111,7 @@ export default function UserProfile() {
       </div>
       <div className="flex justify-center mb-5">
         <button type="submit" className="bg-blue-600 rounded-lg text-white p-2">
-          "Update User"
+          Update User
         </button>
       </div>
     </form>

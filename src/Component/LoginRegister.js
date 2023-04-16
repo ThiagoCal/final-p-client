@@ -18,8 +18,9 @@ const LoginRegister = (props) => {
     setMsg("");
   }, [props.title]);
 
-  const handleAction = async (id) => {
-    if (id === "Register") {
+  const handleAction = async (e) => {
+    e.preventDefault();
+    if (props.title === "Register") {
       if (password === password2) {
         try {
           let res = await axios.post("/register", {
@@ -37,22 +38,18 @@ const LoginRegister = (props) => {
       } else {
         setMsg("Passwords do not match");
       }
-    } else if (id === "Login") {
+    } else if (props.title === "Login") {
       try {
         let res = await axios.post("/login", {
           email,
           password,
         });
-        setUser(res.data);
+        setUser(res.data.user);
         navigate("/");
       } catch (err) {
         console.log(err.response.data);
         setMsg(err.response.data.msg);
       }
-    } else if (id === "reg") {
-      navigate("/register");
-    } else if (id === "goLog") {
-      navigate("/login");
     }
   };
 
@@ -64,10 +61,13 @@ const LoginRegister = (props) => {
 
   return (
     <>
-      <h1>{props.title}</h1>
       {props.title === "Login" ? (
         <div className="w-full max-w-xs m-auto">
-          <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+          <h2 className="my-4 text-xl font-bold">{props.title}</h2>
+          <form
+            className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+            onSubmit={handleAction}
+          >
             <div className="mb-4">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
@@ -79,6 +79,7 @@ const LoginRegister = (props) => {
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 id="email"
                 type="text"
+                required
                 placeholder="Email"
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -91,22 +92,19 @@ const LoginRegister = (props) => {
                 Password
               </label>
               <input
-                className="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
                 id="password"
+                required
                 type="password"
                 placeholder="******************"
                 onChange={(e) => setPassword(e.target.value)}
               />
-              <p className="text-red-500 text-xs italic">
-                Please choose a password.
-              </p>
             </div>
             <div className="flex items-center justify-center mb-3">
               {/* justify-between if adding the forgot password */}
               <button
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                type="button"
-                onClick={() => handleAction(props.title)}
+                type="submit"
               >
                 Sign In
               </button>
@@ -116,18 +114,18 @@ const LoginRegister = (props) => {
             </div>
             <div className="flex items-center justify-center mb-3">
               {/* justify-between if adding the forgot password */}
-              <button
+              <Link
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                type="button"
-                onClick={() => handleAction("reg")}
+                to="/register"
               >
                 Click Here to Register
-              </button>
+              </Link>
             </div>
           </form>
         </div>
       ) : (
-        <form className="w-full max-w-lg m-auto">
+        <form className="w-full max-w-lg m-auto" onSubmit={handleAction}>
+          <h2 className="my-4 text-xl font-bold">{props.title}</h2>
           <div className="flex flex-wrap -mx-3 mb-6">
             <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
               <label
@@ -137,15 +135,13 @@ const LoginRegister = (props) => {
                 First Name
               </label>
               <input
-                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                className="appearance-none block w-full  text-gray-700 border  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                 id="grid-first-name"
+                required
                 type="text"
                 placeholder="First Name"
                 onChange={(e) => setFirstName(e.target.value)}
               />
-              <p className="text-red-500 text-xs italic">
-                Please fill out this field.
-              </p>
             </div>
             <div className="w-full md:w-1/2 px-3">
               <label
@@ -155,9 +151,10 @@ const LoginRegister = (props) => {
                 Last Name
               </label>
               <input
-                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 id="grid-last-name"
                 type="text"
+                required
                 placeholder="Last Name"
                 onChange={(e) => setLastName(e.target.value)}
               />
@@ -172,15 +169,13 @@ const LoginRegister = (props) => {
                 Username
               </label>
               <input
-                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                className="appearance-none block w-full text-gray-700 border  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                 id="grid-username"
                 type="text"
+                required
                 placeholder="Username"
                 onChange={(e) => setUsername(e.target.value)}
               />
-              <p className="text-red-500 text-xs italic">
-                Please fill out this field.
-              </p>
             </div>
             <div className="w-full md:w-1/2 px-3">
               <label
@@ -190,10 +185,10 @@ const LoginRegister = (props) => {
                 Email
               </label>
               <input
-                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                id="grid-email
-                                "
-                type="text"
+                className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                id="grid-email"
+                type="email"
+                required
                 placeholder="example@email.com"
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -208,7 +203,7 @@ const LoginRegister = (props) => {
                 Password
               </label>
               <input
-                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 id="grid-password"
                 type="password"
                 placeholder="******************"
@@ -225,7 +220,7 @@ const LoginRegister = (props) => {
                 Reenter Password
               </label>
               <input
-                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 id="grid-password2"
                 type="password"
                 placeholder="******************"
@@ -237,8 +232,7 @@ const LoginRegister = (props) => {
             {/* justify-between if adding the forgot password */}
             <button
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-3"
-              type="button"
-              onClick={() => handleAction(props.title)}
+              type="submit"
             >
               Sign Up
             </button>
@@ -248,13 +242,12 @@ const LoginRegister = (props) => {
           </div>
           <div className="flex items-center justify-center mb-3">
             {/* justify-between if adding the forgot password */}
-            <button
+            <Link
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-3"
-              type="button"
-              onClick={() => handleAction("goLog")}
+              to="/login"
             >
               Go to Login
-            </button>
+            </Link>
           </div>
         </form>
       )}

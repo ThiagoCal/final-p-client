@@ -271,66 +271,65 @@ export const CreateParty = (props) => {
     <div className="container mx-auto my-4">
       <form
         onSubmit={(e) => handleSubmit(e)}
-        className="max-w-lg mx-auto p-5 bg-white shadow-md rounded"
+        className="max-w-lg mx-auto p-5 bg-white shadow-md rounded flex flex-wrap space-y-4"
       >
-        <div className="flex flex-wrap -mx-3 mb-6">
-          <div className="w-full px-3 mb-6 md:mb-0">
-            <label
-              className="block uppercase tracking-wide text-gray-700 p-1 text-xs font-bold mb-2"
-              htmlFor="grid-party-name"
-            >
-              Name of the Party
-            </label>
-            <input
-              className={
-                "appearance-none block w-full bg-white border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:border-indigo-500 focus:shadow-outline-indigo" +
-                (!partyName ? " border-red-500" : "")
-              }
-              id="grid-party-name"
-              type="text"
-              value={partyName}
-              placeholder="Electric Nights"
-              onChange={(e) => setPartyName(e.target.value)}
-              disabled={!isLogged}
-            />
-            {/* {
+        <div className="w-full ">
+          <label
+            className="block uppercase tracking-wide text-gray-700 p-1 text-xs font-bold mb-2"
+            htmlFor="grid-party-name"
+          >
+            Name of the Party
+          </label>
+          <input
+            className={
+              "appearance-none block w-full bg-white border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:border-indigo-500 focus:shadow-outline-indigo"
+            }
+            id="grid-party-name"
+            type="text"
+            value={partyName}
+            placeholder="Electric Nights"
+            onChange={(e) => setPartyName(e.target.value)}
+            disabled={!isLogged}
+          />
+          {/* {
             !partyName && <p className="text-red-500 text-xs italic">Please fill out this field.</p>
           } */}
-          </div>
-          <div className="w-full px-3 mb-4">
-            <label
-              className="block uppercase tracking-wide text-gray-700 text-xs font-bold p-1 mb-2"
-              htmlFor="grid-venue"
-            >
-              Venue
-            </label>
-            <input
-              className="appearance-none block w-full bg-white border border-gray-300 rounded py-3 px-4 leading-tight focus:outline-none focus:border-indigo-500 focus:shadow-outline-indigo"
-              id="grid-venue"
-              type="text"
-              value={venue}
-              placeholder="Name of the venue"
-              onChange={(e) => setVenue(e.target.value)}
-            />
-          </div>
-          <div className="w-full px-3 mb-4">
-            <label
-              className="block uppercase tracking-wide text-gray-700 text-xs font-bold p-1 mb-2"
-              htmlFor="grid-address"
-            >
-              Address
-            </label>
-            <input
-              className="appearance-none block w-full bg-white border border-gray-300 rounded py-3 px-4 leading-tight focus:outline-none focus:border-indigo-500 focus:shadow-outline-indigo"
-              id="grid-address"
-              type="text"
-              value={address}
-              placeholder="123 Main St."
-              onChange={(e) => setAddress(e.target.value)}
-            />
-          </div>
-          {/* <div className="flex flex-wrap -mx-3 mb-4"> */}
-          <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+        </div>
+        <div className="w-full">
+          <label
+            className="block uppercase tracking-wide text-gray-700 text-xs font-bold p-1 mb-2"
+            htmlFor="grid-venue"
+          >
+            Venue
+          </label>
+          <input
+            className="appearance-none block w-full bg-white border border-gray-300 rounded py-3 px-4 leading-tight focus:outline-none focus:border-indigo-500 focus:shadow-outline-indigo"
+            id="grid-venue"
+            type="text"
+            value={venue}
+            placeholder="Name of the venue"
+            onChange={(e) => setVenue(e.target.value)}
+          />
+        </div>
+        <div className="w-full">
+          <label
+            className="block uppercase tracking-wide text-gray-700 text-xs font-bold p-1 mb-2"
+            htmlFor="grid-address"
+          >
+            Address
+          </label>
+          <input
+            className="appearance-none block w-full bg-white border border-gray-300 rounded py-3 px-4 leading-tight focus:outline-none focus:border-indigo-500 focus:shadow-outline-indigo"
+            id="grid-address"
+            type="text"
+            value={address}
+            placeholder="123 Main St."
+            onChange={(e) => setAddress(e.target.value)}
+          />
+        </div>
+        {/* <div className="flex flex-wrap -mx-3 mb-4"> */}
+        <div className="flex gap-1">
+          <div className="w-full md:w-1/3 ">
             <label
               className="block uppercase tracking-wide text-gray-700 p-1 text-xs font-bold mb-2"
               htmlFor="grid-city"
@@ -346,7 +345,7 @@ export const CreateParty = (props) => {
               onChange={(e) => setCity(e.target.value)}
             />
           </div>
-          <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+          <div className="w-full md:w-1/3 ">
             <label
               className="block uppercase tracking-wide text-gray-700 p-1 text-xs font-bold mb-2"
               htmlFor="grid-city"
@@ -362,7 +361,7 @@ export const CreateParty = (props) => {
               onChange={(e) => setAddressNumber(e.target.value)}
             />
           </div>
-          <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+          <div className="w-full md:w-1/3 ">
             <label
               className="block uppercase tracking-wide text-gray-700 p-1 text-xs font-bold mb-2"
               htmlFor="grid-zip"
@@ -379,9 +378,10 @@ export const CreateParty = (props) => {
             />
           </div>
         </div>
-        <div className="flex flex-wrap -mx-3 mb-4">
+
+        <div className="flex flex-wrap gap-2 ">
           {/* Price input field */}
-          <div className=" md:w-1/2 px-3 mb-6 md:mb-0">
+          <div className=" ">
             <label
               className="block uppercase tracking-wide text-gray-700 p-1 text-xs font-bold mb-2"
               htmlFor="input-currency-field"
@@ -403,14 +403,14 @@ export const CreateParty = (props) => {
             />
           </div>
           {/* Party date picker */}
-          <div className="flex flex-col  md:w-1/2 ">
+          <div className="flex flex-col ">
             <label
               className="block uppercase tracking-wide text-gray-700 p-1 text-xs font-bold mb-2 "
               htmlFor="date"
             >
               Party Date
             </label>
-            <div className=" w-60 border 1px solid black">
+            <div className="w-60 border">
               <DatePicker
                 id={"date"}
                 selected={date}
@@ -418,55 +418,54 @@ export const CreateParty = (props) => {
                 showTimeSelect
                 filterTime={filterPassedTime}
                 dateFormat="MMMM d, yyyy h:mm aa"
-                className="block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                className="block w-full rounded-md shadow-sm border-gray-300 height-4 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
               />
             </div>
           </div>
-          <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-            <label
-              className="block uppercase tracking-wide text-gray-700 p-1 text-xs font-bold mb-2"
-              htmlFor="grid-image"
-            >
-              Attach the party Image
-            </label>
-            <input
-              type="file"
-              id="grid-image"
-              name="myImage"
-              onChange={(e) => handleChangeImage(e)}
-              accept="image/*"
-            />
-            {/* <div className="previewProfilePic">
+        </div>
+        <div className="w-full ">
+          <label
+            className="block uppercase tracking-wide text-gray-700 p-1 text-xs font-bold mb-2"
+            htmlFor="grid-image"
+          >
+            Attach the party Image
+          </label>
+          <input
+            type="file"
+            id="grid-image"
+            name="myImage"
+            onChange={(e) => handleChangeImage(e)}
+            accept="image/*"
+          />
+          {/* <div className="previewProfilePic">
               <img className="playerProfilePic_home_tile" src={imgData} />
             </div> */}
-            {fileName ? (
-              <div>
-                <img
-                  src={`${process.env.REACT_APP_SERVERURL}${fileName}`}
-                  maxWidth={"300px"}
-                ></img>
-              </div>
-            ) : (
-              <></>
-            )}
-          </div>
+          {fileName ? (
+            <div>
+              <img
+                src={`${process.env.REACT_APP_SERVERURL}${fileName}`}
+                maxWidth={"300px"}
+              ></img>
+            </div>
+          ) : (
+            <></>
+          )}
         </div>
-
-        <div className="flex flex-wrap -mx-3 mb-6">
+        <div className="flex flex-wrap w-full space-y-4">
           {/* Party description input field */}
-          <div className="w-full px-3">
+          <div className="w-full">
             <label
-              className="block uppercase tracking-wide text-gray-700 p-1 text-xs font-bold mb-2"
+              className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
               htmlFor="grid-description"
             >
               Party Description
             </label>
             <input
-              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              className="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               id="grid-description"
               type="text"
               value={description}
-              placeholder="Here is my party and I cry if I want to"
+              placeholder="Party description"
               onChange={(e) => setDescription(e.target.value)}
             />
             <p className="text-gray-600 text-xs italic">
@@ -475,23 +474,23 @@ export const CreateParty = (props) => {
           </div>
         </div>
 
-        <div className="w-full  flex-wrap -mx-3 ml-2 mb-6">
+        <div className="w-full  flex-wrap space-y-4">
           {/* Party category checkboxes */}
-          <div className="flex-col w-full mt-2">
+          <div className="flex-col w-full ">
             <span className="uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
               Choose your party category:
             </span>
             {categoryArray.map((elem) => {
               return (
-                <div className="flex-col" key={elem.category_id}>
-                  <label>
+                <div className="flex-col my-1" key={elem.category_id}>
+                  <label className="flex item-center space-x-2">
                     <input
                       type="checkbox"
                       value={elem.category_id}
                       checked={selectedCategory.includes(elem.category_id)}
                       onChange={handleCheckboxChangeCategory}
                     />
-                    {elem.category_name}
+                    <span>{elem.category_name}</span>
                   </label>
                 </div>
               );
@@ -503,25 +502,25 @@ export const CreateParty = (props) => {
             </span>
             {musicTypeArray.map((elem) => {
               return (
-                <div className="flex-col">
-                  <label key={elem.music_id}>
+                <div className="flex-col my-1" key={elem.music_id}>
+                  <label className="flex item-center space-x-2">
                     <input
                       type="checkbox"
                       value={elem.music_id}
                       checked={selectedMusic.includes(elem.music_id)}
                       onChange={handleCheckboxChangeMusic}
                     />
-                    {elem.category_name}
+                    <span>{elem.category_name}</span>
                   </label>
                 </div>
               );
             })}
           </div>
         </div>
-        <div className="flex justify-center mb-5">
+        <div className="flex w-full justify-center mb-5">
           <button
             type="submit"
-            className="bg-blue-600 rounded-lg text-white p-2"
+            className="bg-primary rounded-lg text-white p-2"
           >
             {partyId ? "Update Party" : "Create Party"}
           </button>

@@ -216,7 +216,9 @@ const Navbar2 = (props) => {
                       aria-haspopup="true"
                     >
                       <img
-                        src="https://tecdn.b-cdn.net/img/new/avatars/2.jpg"
+                        src={`${
+                          process.env.REACT_APP_SERVERURL
+                        }${"default-avatar.png"}`}
                         className="rounded-full"
                         style={{ height: "25px", width: "25px" }}
                         alt=""
