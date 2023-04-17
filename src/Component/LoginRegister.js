@@ -11,6 +11,7 @@ const LoginRegister = (props) => {
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
   const [isProducer, setIsProducer] = useState("");
+  const [disabled, setDisabled] = useState(false);
   const [msg, setMsg] = useState("");
   const navigate = useNavigate();
   const { isLogged, setUser } = useAppContext();
@@ -105,7 +106,7 @@ const LoginRegister = (props) => {
             <div className="flex items-center justify-center mb-3">
               {/* justify-between if adding the forgot password */}
               <button
-                className="bg-primary-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                className="bg-primary hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                 type="submit"
               >
                 Sign In
@@ -117,7 +118,7 @@ const LoginRegister = (props) => {
             <div className="flex items-center justify-center mb-3">
               {/* justify-between if adding the forgot password */}
               <Link
-                className="bg-primary-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                className="bg-primary hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                 to="/register"
               >
                 Click Here to Register
@@ -248,7 +249,7 @@ const LoginRegister = (props) => {
           <div className="flex items-center justify-center mb-3">
             {/* justify-between if adding the forgot password */}
             <button
-              className="bg-primary-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-3"
+              className="bg-primary hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-3"
               type="submit"
             >
               Sign Up

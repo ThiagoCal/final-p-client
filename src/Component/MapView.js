@@ -23,8 +23,8 @@ export const MapView = ({ parties }) => {
       <Map
         id="mymap"
         initialViewState={{
-          longitude: 34.77294,
-          latitude: 32.074111,
+          longitude: parties[0].longitude,
+          latitude: parties[0].latitude,
           zoom: 12,
         }}
         style={{ width: 600, height: 600 }}
@@ -57,17 +57,29 @@ export const MapView = ({ parties }) => {
                   longitude={Number(popupInfo.longitude)}
                   latitude={Number(popupInfo.latitude)}
                   onClose={() => setPopupInfo(null)}
+                  className="flex flex-col w-full justify-center self-center"
                 >
-                  <div key={popupInfo.name}>
-                    {popupInfo.name}
-                    {moment(popupInfo.party_date).format("DD-MM-YYYY HH:MM")}
-                    <Link target="_new" to={`/party/${popupInfo.id}`}>
+                  <div
+                    key={popupInfo.name}
+                    className="flex flex-col w-full justify-center self-center"
+                  >
+                    <span>{popupInfo.name}</span>
+                    <span>
+                      {moment(popupInfo.party_date).format("DD-MM-YYYY HH:MM")}
+                    </span>
+                    <Link
+                      target="_new"
+                      className="text-primary"
+                      to={`/party/${popupInfo.id}`}
+                    >
                       {popupInfo.name}
                     </Link>
                   </div>
                   <img
                     width="20%"
-                    src={`${process.env.REACT_APP_SERVERURL}${popupInfo.image_path}`}
+                    src={`${process.env.REACT_APP_SERVERURL}${
+                      popupInfo.image_path ?? "default.jpeg"
+                    }`}
                     alt={popupInfo.name}
                   />
                 </Popup>

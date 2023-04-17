@@ -42,7 +42,7 @@ export default function Party(props) {
           {party ? (
             <>
               <div
-                className="bg-white flex flex-col my-3 shadow-md border border-gray-200 rounded-lg sm:w-sm md:w-l dark:bg-gray-800 dark:border-gray-700"
+                className="bg-white flex flex-col my-3 shadow-md border border-gray-200 rounded-lg md:w-l dark:bg-gray-800 dark:border-gray-700"
                 key={party.id}
               >
                 <a href="#">
@@ -92,7 +92,11 @@ export default function Party(props) {
                     </p>
                   </div>
                 </div>
-                <button type="button" onClick={addBookmark}>
+                <button
+                  type="button"
+                  className="bg-primary hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-3"
+                  onClick={addBookmark}
+                >
                   Add Bookmark
                 </button>
               </div>

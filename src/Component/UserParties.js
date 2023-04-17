@@ -40,15 +40,12 @@ export default function UserParties() {
   };
 
   return (
-    <div className="container mx-auto">
-      {/* <div>
-
-      </div> */}
+    <div className="container mx-auto justify-center">
       <div className="font-bold flex  text-gray-700 mb-5 text-4xl dark:text-gray-400">
         Your Parties
       </div>
-      <div className="flex">
-        <div className="flex w-full justify-between gap-1 flex-wrap">
+      <div className="flex ">
+        <div className="flex w-full justify-around  flex-wrap">
           {loading ? (
             <div>Loading</div>
           ) : (

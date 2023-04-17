@@ -1,7 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useAppContext } from "./AppContext";
 
 export default function Cta() {
+  const { user } = useAppContext();
   return (
     <section className="mb-28">
       <div
@@ -27,15 +29,20 @@ export default function Cta() {
               Party Search <br /> Search for the best parties <br />
               <span className="text-primary">around you</span>
             </h1>
-            <Link
-              className="inline-block px-7 py-3 bg-primary mb-2 md:mb-0 mr-0 md:mr-2 text-white font-medium text-sm hover:bg-blue-700 leading-snug uppercase rounded shadow-md  hover:shadow-lg  focus:shadow-lg focus:outline-none focus:ring-0  active:shadow-lg transition duration-150 ease-in-out"
-              data-mdb-ripple="true"
-              data-mdb-ripple-color="light"
-              to="/register"
-              role="button"
-            >
-              Register
-            </Link>
+            {!user ? (
+              <Link
+                className="inline-block px-7 py-3 bg-primary mb-2 md:mb-0 mr-0 md:mr-2 text-white font-medium text-sm hover:bg-blue-700 leading-snug uppercase rounded shadow-md  hover:shadow-lg  focus:shadow-lg focus:outline-none focus:ring-0  active:shadow-lg transition duration-150 ease-in-out"
+                data-mdb-ripple="true"
+                data-mdb-ripple-color="light"
+                to="/register"
+                role="button"
+              >
+                Register
+              </Link>
+            ) : (
+              <></>
+            )}
+
             <a
               className="inline-block px-7 py-3 text-primary font-medium text-sm leading-snug bg-transparent  font-medium text-xs leading-tight uppercase rounded  hover:bg-gray-100 focus:bg-gray-100 focus:outline-none focus:ring-0 active:bg-gray-200 transition duration-150 ease-in-out"
               data-mdb-ripple="true"
