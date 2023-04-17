@@ -105,7 +105,7 @@ const LoginRegister = (props) => {
             <div className="flex items-center justify-center mb-3">
               {/* justify-between if adding the forgot password */}
               <button
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                className="bg-primary-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                 type="submit"
               >
                 Sign In
@@ -117,7 +117,7 @@ const LoginRegister = (props) => {
             <div className="flex items-center justify-center mb-3">
               {/* justify-between if adding the forgot password */}
               <Link
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                className="bg-primary-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                 to="/register"
               >
                 Click Here to Register
@@ -248,7 +248,7 @@ const LoginRegister = (props) => {
           <div className="flex items-center justify-center mb-3">
             {/* justify-between if adding the forgot password */}
             <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-3"
+              className="bg-primary-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-3"
               type="submit"
             >
               Sign Up
@@ -260,7 +260,7 @@ const LoginRegister = (props) => {
           <div className="flex items-center justify-center mb-3">
             {/* justify-between if adding the forgot password */}
             <Link
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-3"
+              className="bg-primary hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-3"
               to="/login"
             >
               Go to Login

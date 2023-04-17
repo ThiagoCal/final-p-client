@@ -110,7 +110,7 @@ export default function UserProfile() {
         </div>
       </div>
       <div className="flex justify-center mb-5">
-        <button type="submit" className="bg-blue-600 rounded-lg text-white p-2">
+        <button type="submit" className="bg-primary rounded-lg text-white p-2">
           Update User
         </button>
       </div>

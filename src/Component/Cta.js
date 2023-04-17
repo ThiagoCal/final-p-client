@@ -24,7 +24,7 @@ export default function Cta() {
             }}
           >
             <h1 className="text-5xl md:text-4xl xl:text-4xl font-bold tracking-tight">
-              Search for the best parties <br />
+              Party Search <br /> Search for the best parties <br />
               <span className="text-primary">around you</span>
             </h1>
             <Link
