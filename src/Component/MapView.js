@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback, useRef } from "react";
 // import { useLocation } from 'react-router-dom';
 import Map, { Marker, Popup, MapRef } from "react-map-gl";
+import { Link } from "react-router-dom";
 import "mapbox-gl/dist/mapbox-gl.css";
 import moment from "moment";
 import ControlPanel from "./ControlPanel";
@@ -45,17 +46,10 @@ export const MapView = ({ parties }) => {
                   setPopupInfo(party);
                 }}
               >
-                <div
-                  style={{
-                    height: 10,
-                    width: 10,
-                    backgroundColor: "cyan",
-                    borderRadius: 10,
-                    textAlign: "center",
-                  }}
-                >
-                  <span></span>
-                </div>
+                <img
+                  src={`${process.env.REACT_APP_SERVERURL}map_marker.png`}
+                  width="20px"
+                />
               </Marker>
               {popupInfo && (
                 <Popup
@@ -66,19 +60,14 @@ export const MapView = ({ parties }) => {
                 >
                   <div key={popupInfo.name}>
                     {popupInfo.name}
-                    {moment(popupInfo.party_date).format(
-                      "DD-MM-YYYY HH:MM"
-                    )} |{" "}
-                    <a
-                      target="_new"
-                      href={`http://en.wikipedia.org/w/index.php?title=Special:Search&search=${popupInfo.city}`}
-                    >
+                    {moment(popupInfo.party_date).format("DD-MM-YYYY HH:MM")}
+                    <Link target="_new" to={`/party/${popupInfo.id}`}>
                       {popupInfo.name}
-                    </a>
+                    </Link>
                   </div>
                   <img
-                    width="100%"
-                    src={popupInfo.image}
+                    width="20%"
+                    src={`${process.env.REACT_APP_SERVERURL}${popupInfo.image_path}`}
                     alt={popupInfo.name}
                   />
                 </Popup>

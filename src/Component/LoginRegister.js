@@ -10,6 +10,7 @@ const LoginRegister = (props) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
+  const [isProducer, setIsProducer] = useState("");
   const [msg, setMsg] = useState("");
   const navigate = useNavigate();
   const { isLogged, setUser } = useAppContext();
@@ -29,6 +30,7 @@ const LoginRegister = (props) => {
             username,
             email,
             password,
+            isProducer,
           });
           navigate("/login");
         } catch (err) {
@@ -192,6 +194,21 @@ const LoginRegister = (props) => {
                 placeholder="example@email.com"
                 onChange={(e) => setEmail(e.target.value)}
               />
+            </div>
+            <div className="w-full md:w-1/2 px-3">
+              <label
+                className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                htmlFor="is-producer"
+              >
+                Are you a party producer?
+              </label>
+              <input
+                type="checkbox"
+                id="is-producer"
+                checked={isProducer}
+                onChange={(e) => setIsProducer(e.target.checked)}
+              />
+              <span className="ml-1">I'm a party producer</span>
             </div>
           </div>
           <div className="flex flex-wrap -mx-3 mb-6">

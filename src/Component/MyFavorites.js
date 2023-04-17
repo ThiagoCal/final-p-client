@@ -1,48 +1,51 @@
-import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import React from "react";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import moment from "moment";
 import { useAppContext } from "./AppContext";
 
-export default function Party(props) {
+export default function MyFavorites() {
   const { user } = useAppContext();
-  const [party, setParty] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
-  const params = useParams();
-  useEffect(() => {
-    console.log("user", user);
-    if (params.id) {
-      const getParty = async () => {
-        const res = await axios.get(`/parties/${params.id}`);
-        setParty(res.data);
-      };
-      getParty();
-    }
-  }, [params.id, user]);
+  const [parties, setParty] = useState(null);
+  const [bookmarks, setBookmarks] = useState(null);
 
-  const addBookmark = async () => {
-    const res = await axios.post("/bookmarks", {
-      partyId: party.id,
-      userId: user.id,
-    });
-    console.log(res.data);
-    navigate("/user-favorites");
+  useEffect(() => {
+    const getBookmarks = async () => {
+      const res = await axios.get(`/bookmarks/${user.id}`);
+      console.log(res.data.bookmarks);
+      setBookmarks(res.data.bookmarks);
+      const fav = res.data.bookmarks.map((favorites) => favorites.party_id);
+      setParty(fav);
+    };
+    getBookmarks();
+  }, [user]);
+
+  const deleteBookmark = async (id) => {
+    const res = await axios.delete(`/bookmark/${id}`);
+    const response = await axios.get(`/bookmarks/${user.id}`);
+    console.log(response.data);
+    if (res.data.bookmarks === []) {
+      const fav = res.data.bookmarks.map((favorites) => favorites.party_id);
+      setParty(fav);
+      setBookmarks(res.data.bookmarks);
+    } else {
+      setBookmarks("");
+      setParty("");
+    }
   };
   return (
     <div className="container mx-auto">
-      {/* <div className="font-bold flex  text-gray-700 mb-5 text-4xl dark:text-gray-400">
-        Your Parties
-      </div> */}
-      <div className="flex">
-        <div className="flex w-full justify-center">
-          {/* {loading ? (
-            <div>Loading</div>
-          ) : ( */}
-          {party ? (
-            <>
+      <div className="flex justify-center">
+        <h2 className="my-4 text-2xl font-bold">My Favorites</h2>
+      </div>
+
+      {parties ? (
+        <div className="flex flex justify-center gap-4">
+          {parties.map((party) => {
+            return (
               <div
-                className="bg-white flex flex-col my-3 shadow-md border border-gray-200 rounded-lg sm:w-sm md:w-l dark:bg-gray-800 dark:border-gray-700"
+                className="bg-white flex flex-col  my-3 md:w-1/2 lg:w-1/2 shadow-md border border-gray-200 rounded-lg max-w-sm dark:bg-gray-800 dark:border-gray-700"
                 key={party.id}
               >
                 <a href="#">
@@ -92,16 +95,24 @@ export default function Party(props) {
                     </p>
                   </div>
                 </div>
-                <button type="button" onClick={addBookmark}>
-                  Add Bookmark
-                </button>
+                {bookmarks.map((bookmark) => (
+                  <div className="flex justify-center mb-2">
+                    <button
+                      type="button"
+                      onClick={() => deleteBookmark(bookmark.id)}
+                      className="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-2 text-center inline-flex items-center  dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+                    >
+                      Unfavorite
+                    </button>
+                  </div>
+                ))}
               </div>
-            </>
-          ) : (
-            <></>
-          )}
+            );
+          })}
         </div>
-      </div>
+      ) : (
+        <></>
+      )}
     </div>
   );
 }

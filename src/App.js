@@ -14,6 +14,7 @@ import { AppContextProvider } from "./Component/AppContext";
 import FileUpload from "./Component/FileUpload";
 import UserProfile from "./Component/UserProfile";
 import Party from "./Component/Party";
+import MyFavorites from "./Component/MyFavorites";
 
 function App() {
   useEffect(() => {
@@ -45,6 +46,14 @@ function App() {
               element={
                 <RequireAuth>
                   <UserParties />
+                </RequireAuth>
+              }
+            ></Route>
+            <Route
+              path="/user-favorites"
+              element={
+                <RequireAuth>
+                  <MyFavorites />
                 </RequireAuth>
               }
             ></Route>
