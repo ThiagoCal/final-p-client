@@ -87,18 +87,11 @@ export const CreateParty = (props) => {
   };
 
   const getCoordinates = async (address) => {
-    console.log(address);
+    let addressEncoded = encodeURIComponent(address);
+    let url = `https://us1.locationiq.com/v1/search?key=${process.env.REACT_APP_GEOCODEAPI_TOKEN}&q=${addressEncoded}&format=json`;
+    console.log(url);
     try {
-      const response = await axios.get(
-        "https://api.opencagedata.com/geocode/v1/json? ",
-        {
-          params: {
-            key: process.env.REACT_APP_OPENCAGE_TOKEN,
-            q: address,
-            language: "en",
-          },
-        }
-      );
+      const response = await axios.get(url);
       console.log("request url", response);
       return response;
     } catch (e) {
@@ -143,12 +136,24 @@ export const CreateParty = (props) => {
         date,
         user_id: user.id,
       });
-      const fAdress = `${address} ${addressNumber}, ${city}, ${zipcode}`;
+      let fAdress;
+      if (
+        (address.toLowerCase() === "derech jaffa" && addressNumber === 9) ||
+        venue.toLowerCase() == "teder" ||
+        venue.toLowerCase() == "teder.fm"
+      ) {
+        fAdress = "Teder.fm,Tel Aviv,Israel";
+      } else if (address.toLowerCase() === "sderot chen") {
+        address = "sderot hen";
+      } else {
+        fAdress = `${address} ${addressNumber}, ${city}, ${zipcode}`;
+      }
       setFullAddress(fAdress);
       getCoordinates(fAdress).then((data) => {
-        const latitude = data.data.results[0].geometry.lat;
-        const longitude = data.data.results[0].geometry.lng;
-
+        const latitude = data.data[0].lat;
+        const longitude = data.data[0].lon;
+        console.log("lat", latitude);
+        console.log("long", longitude);
         const sendData = async () => {
           const file_name = await sendImage();
           let post = await axios.post("/create_party", {
@@ -187,12 +192,28 @@ export const CreateParty = (props) => {
         sendData();
       });
     } else {
-      setFullAddress(`${address} ${addressNumber}, ${city} ${zipcode}`);
-      getCoordinates(`${address} ${addressNumber}, ${city} ${zipcode}`).then(
-        (data) => {
-          const latitude = data.data.results[0].geometry.lat;
-          const longitude = data.data.results[0].geometry.lng;
-          const updateData = async () => {
+      let fAdress;
+      if (
+        (address.toLowerCase() === "derech jaffa" && addressNumber === 9) ||
+        venue.toLowerCase() == "teder" ||
+        venue.toLowerCase() == "teder.fm"
+      ) {
+        fAdress = "Teder.fm,Tel Aviv,Israel";
+      } else if (address.toLowerCase() === "sderot chen") {
+        fAdress = `sderot hen ${addressNumber}, ${city}, ${zipcode}`;
+      } else {
+        fAdress = `${address} ${addressNumber}, ${city}, ${zipcode}`;
+      }
+      setFullAddress(fAdress);
+      getCoordinates(fAdress).then((data) => {
+        console.log(data);
+        const latitude = data.data[0].lat;
+        const longitude = data.data[0].lon;
+        console.log("lat", latitude);
+        console.log("long", longitude);
+        const updateData = async () => {
+          try {
+            console.log(fileName);
             const file_name = await sendImage();
             console.log("update filename", file_name);
             let post = await axios.put(`/parties/${partyId}`, {
@@ -212,10 +233,12 @@ export const CreateParty = (props) => {
               latitude,
               longitude,
             });
-          };
-          updateData();
-        }
-      );
+          } catch (err) {
+            console.log("error->", err);
+          }
+        };
+        updateData();
+      });
     }
   };
 
@@ -287,6 +310,7 @@ export const CreateParty = (props) => {
             id="grid-party-name"
             type="text"
             value={partyName}
+            required
             placeholder="Electric Nights"
             onChange={(e) => setPartyName(e.target.value)}
             disabled={!isLogged}
@@ -322,6 +346,7 @@ export const CreateParty = (props) => {
             className="appearance-none block w-full bg-white border border-gray-300 rounded py-3 px-4 leading-tight focus:outline-none focus:border-indigo-500 focus:shadow-outline-indigo"
             id="grid-address"
             type="text"
+            required
             value={address}
             placeholder="123 Main St."
             onChange={(e) => setAddress(e.target.value)}
@@ -390,6 +415,7 @@ export const CreateParty = (props) => {
             </label>
             <CurrencyInput
               allowDecimals
+              required
               decimalSeparator="."
               id="input-currency-field"
               name="input-currency-field-name"

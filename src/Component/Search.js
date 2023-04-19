@@ -283,7 +283,7 @@ function Search() {
         <div className="w-full mt-5" key={"container"}>
           {parties?.length > 0 ? (
             <div className="flex justify-center">
-              <div className="flex flex-col w-3/5">
+              <div className="flex flex-col w-11/12">
                 {parties.map((party) => {
                   return (
                     <>
@@ -292,7 +292,7 @@ function Search() {
                         key={party.id}
                       >
                         <div
-                          className="relative flex flex-row w-4/5 rounded-xl shadow-lg p-2  mx-auto border border-white bg-white"
+                          className="relative flex flex-row w-11/12 rounded-xl shadow-lg p-2  mx-auto border border-white bg-white"
                           onClick={() => handlePartyCardClick(party)}
                           key={party.id}
                         >
@@ -321,8 +321,8 @@ function Search() {
                                 {party.name}
                               </h3>
                               <p className="md:text-m text-gray-500 text-base  ">
-                                {party.description.length > 350
-                                  ? `${party.description.slice(0, 350)}...`
+                                {party.description.length > 150
+                                  ? `${party.description.slice(0, 150)}...`
                                   : party.description}
                               </p>
                             </div>
