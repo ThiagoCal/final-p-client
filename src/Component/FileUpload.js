@@ -49,7 +49,7 @@ export const FileUpload = (props) => {
         </form>
       </div>
       <img
-        src={`${process.env.REACT_APP_SERVERURL}${fileName}`}
+        src={`${process.env.REACT_APP_SERVERURL}/${fileName}`}
         width={"800px"}
       ></img>
     </>

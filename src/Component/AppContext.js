@@ -8,7 +8,9 @@ export function AppContextProvider({ children }) {
   useEffect(() => {
     const verify = async () => {
       try {
-        let response = await axios.get("/token");
+        let response = await axios.get(
+          `${process.env.REACT_APP_BASEURL}/token`
+        );
         console.log("res", response.data.user);
         setUser(response.data.user);
       } catch (err) {

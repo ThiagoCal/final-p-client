@@ -32,7 +32,7 @@ export default function UserParties() {
         );
 
         const response = await axios.get(
-          `${process.env.REACT_APP_BASEURL}/${user.id}/parties`
+          `${process.env.REACT_APP_SERVERURL}/${user.id}/parties`
         );
         console.log(response.data);
         setParties(response.data);

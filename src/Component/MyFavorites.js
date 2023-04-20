@@ -55,7 +55,7 @@ export default function MyFavorites() {
                 <a href="#">
                   <img
                     className={"rounded-t-lg object-cover"}
-                    src={`${process.env.REACT_APP_SERVERURL}${
+                    src={`${process.env.REACT_APP_BASEURL}${
                       party.image_path ?? "default.jpeg"
                     }`}
                     style={{ height: "350px", minWidth: "100%" }}
