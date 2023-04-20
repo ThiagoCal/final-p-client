@@ -20,7 +20,10 @@ export const FileUpload = (props) => {
     dataForm.append("image", input);
     console.log("dataform", dataForm.get("image"));
     try {
-      let response = await axios.post("/uploadimg", dataForm);
+      let response = await axios.post(
+        `${process.env.REACT_APP_BASEURL}/uploadimg`,
+        dataForm
+      );
       console.log("response", response.data);
       console.log("filename", response.data.filename);
       setFileName(response.data.filename);

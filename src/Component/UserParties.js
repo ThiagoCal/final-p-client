@@ -12,7 +12,9 @@ export default function UserParties() {
 
   useEffect(() => {
     const getParties = async () => {
-      const response = await axios.get(`/${user.id}/parties`);
+      const response = await axios.get(
+        `${process.env.REACT_APP_BASEURL}/${user.id}/parties`
+      );
       console.log(response.data);
       setParties(response.data);
       setLoading(false);
@@ -25,9 +27,13 @@ export default function UserParties() {
     if (window.confirm("Are you sure you want to delete the party?")) {
       try {
         console.log("hi from delete");
-        const del = await axios.delete(`/parties/${id}`);
+        const del = await axios.delete(
+          `${process.env.REACT_APP_BASEURL}/parties/${id}`
+        );
 
-        const response = await axios.get(`/${user.id}/parties`);
+        const response = await axios.get(
+          `${process.env.REACT_APP_BASEURL}/${user.id}/parties`
+        );
         console.log(response.data);
         setParties(response.data);
         setLoading(false);

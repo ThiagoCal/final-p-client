@@ -25,14 +25,17 @@ const LoginRegister = (props) => {
     if (props.title === "Register") {
       if (password === password2) {
         try {
-          let res = await axios.post("/register", {
-            firstName,
-            lastName,
-            username,
-            email,
-            password,
-            isProducer,
-          });
+          let res = await axios.post(
+            `${process.env.REACT_APP_BASEURL}/register`,
+            {
+              firstName,
+              lastName,
+              username,
+              email,
+              password,
+              isProducer,
+            }
+          );
           navigate("/login");
         } catch (err) {
           console.log(err.response.data);
@@ -43,7 +46,7 @@ const LoginRegister = (props) => {
       }
     } else if (props.title === "Login") {
       try {
-        let res = await axios.post("/login", {
+        let res = await axios.post(`${process.env.REACT_APP_BASEURL}/login`, {
           email,
           password,
         });

@@ -106,7 +106,10 @@ export const CreateParty = (props) => {
     dataForm.append("image", input);
     // console.log("dataform", dataForm.get("image"));
     try {
-      let response = await axios.post("/uploadimg", dataForm);
+      let response = await axios.post(
+        `${process.env.REACT_APP_BASEURL}/uploadimg`,
+        dataForm
+      );
       console.log("response", response.data);
       console.log("filename", response.data.filename);
       // setFileName(response.data.filename);
@@ -156,24 +159,27 @@ export const CreateParty = (props) => {
         console.log("long", longitude);
         const sendData = async () => {
           const file_name = await sendImage();
-          let post = await axios.post("/create_party", {
-            selectedCategory,
-            selectedMusic,
-            fullAddress: fAdress,
-            fileName: file_name,
-            venue,
-            address,
-            addressNumber,
-            city,
-            zipcode,
-            partyName,
-            description,
-            price,
-            date,
-            latitude,
-            longitude,
-            user_id: user.id,
-          });
+          let post = await axios.post(
+            `${process.env.REACT_APP_BASEURL}/create_party`,
+            {
+              selectedCategory,
+              selectedMusic,
+              fullAddress: fAdress,
+              fileName: file_name,
+              venue,
+              address,
+              addressNumber,
+              city,
+              zipcode,
+              partyName,
+              description,
+              price,
+              date,
+              latitude,
+              longitude,
+              user_id: user.id,
+            }
+          );
           setPartyId(post.data.party.id);
           setPartyName(post.data.party.name);
           setVenue(post.data.party.venue);
@@ -216,23 +222,26 @@ export const CreateParty = (props) => {
             console.log(fileName);
             const file_name = await sendImage();
             console.log("update filename", file_name);
-            let post = await axios.put(`/parties/${partyId}`, {
-              selectedCategory,
-              selectedMusic,
-              fullAddress,
-              fileName: file_name,
-              venue,
-              address,
-              addressNumber,
-              city,
-              zipcode,
-              partyName,
-              description,
-              price,
-              date,
-              latitude,
-              longitude,
-            });
+            let post = await axios.put(
+              `${process.env.REACT_APP_BASEURL}/parties/${partyId}`,
+              {
+                selectedCategory,
+                selectedMusic,
+                fullAddress,
+                fileName: file_name,
+                venue,
+                address,
+                addressNumber,
+                city,
+                zipcode,
+                partyName,
+                description,
+                price,
+                date,
+                latitude,
+                longitude,
+              }
+            );
           } catch (err) {
             console.log("error->", err);
           }
@@ -244,13 +253,17 @@ export const CreateParty = (props) => {
 
   useEffect(() => {
     const getCategories = async () => {
-      let response = await axios.get("/party_categories_list");
+      let response = await axios.get(
+        `${process.env.REACT_APP_BASEURL}/party_categories_list`
+      );
 
       setCategoryArray(response.data);
     };
     getCategories();
     const getMusicTypes = async () => {
-      let response = await axios.get("/music_types");
+      let response = await axios.get(
+        `${process.env.REACT_APP_BASEURL}/music_types`
+      );
 
       setMusicTypeArray(response.data);
     };
@@ -261,7 +274,9 @@ export const CreateParty = (props) => {
     if (params.id) {
       const getParty = async () => {
         try {
-          let get = await axios.get(`/parties/${params.id}`);
+          let get = await axios.get(
+            `${process.env.REACT_APP_BASEURL}/parties/${params.id}`
+          );
           if (get.data.user_id !== user.id) {
             navigate("/");
             return;

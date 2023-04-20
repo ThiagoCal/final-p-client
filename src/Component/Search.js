@@ -25,13 +25,17 @@ function Search() {
 
   useEffect(() => {
     const getCategories = async () => {
-      let response = await axios.get("/party_categories_list");
+      let response = await axios.get(
+        `${process.env.REACT_APP_BASEURL}/party_categories_list`
+      );
       console.log("party categories", response.data);
       setCategoryArray(response.data);
     };
     getCategories();
     const getMusicTypes = async () => {
-      let response = await axios.get("/music_types");
+      let response = await axios.get(
+        `${process.env.REACT_APP_BASEURL}/music_types`
+      );
 
       setMusicTypeArray(response.data);
     };
@@ -43,16 +47,19 @@ function Search() {
     try {
       console.log("categoryID", categoryId);
       console.log("MUSIC", musicId);
-      const response = await axios.get(`http://localhost:3800/parties_search`, {
-        params: {
-          name,
-          party_date: selectedDate,
-          city,
-          venue,
-          musicId,
-          categoryId,
-        },
-      });
+      const response = await axios.get(
+        `${process.env.REACT_APP_BASEURL}/parties_search`,
+        {
+          params: {
+            name,
+            party_date: selectedDate,
+            city,
+            venue,
+            musicId,
+            categoryId,
+          },
+        }
+      );
       setParties(response.data);
       setLoading(false);
     } catch (error) {
@@ -280,7 +287,7 @@ function Search() {
       {loading ? (
         <div key={"loading"}> Loading ...</div>
       ) : (
-        <div className="w-full mt-5" key={"container"}>
+        <div className="container mx-auto flex mt-5" key={"container"}>
           {parties?.length > 0 ? (
             <div className="flex justify-center">
               <div className="flex flex-col w-11/12">

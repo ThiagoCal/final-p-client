@@ -14,7 +14,9 @@ export default function Party(props) {
     console.log("user", user);
     if (params.id) {
       const getParty = async () => {
-        const res = await axios.get(`/parties/${params.id}`);
+        const res = await axios.get(
+          `${process.env.REACT_APP_BASEURL}/parties/${params.id}`
+        );
         setParty(res.data);
       };
       getParty();
@@ -22,7 +24,7 @@ export default function Party(props) {
   }, [params.id, user]);
 
   const addBookmark = async () => {
-    const res = await axios.post("/bookmarks", {
+    const res = await axios.post(`${process.env.REACT_APP_BASEURL}/bookmarks`, {
       partyId: party.id,
       userId: user.id,
     });

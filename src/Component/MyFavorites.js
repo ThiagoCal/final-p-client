@@ -12,7 +12,9 @@ export default function MyFavorites() {
 
   useEffect(() => {
     const getBookmarks = async () => {
-      const res = await axios.get(`/bookmarks/${user.id}`);
+      const res = await axios.get(
+        `${process.env.REACT_APP_BASEURL}/bookmarks/${user.id}`
+      );
       console.log(res.data.bookmarks);
       setBookmarks(res.data.bookmarks);
       const fav = res.data.bookmarks.map((favorites) => favorites.party_id);
@@ -22,7 +24,9 @@ export default function MyFavorites() {
   }, [user]);
 
   const deleteBookmark = async (id) => {
-    const res = await axios.delete(`/bookmark/${id}`);
+    const res = await axios.delete(
+      `${process.env.REACT_APP_BASEURL}/bookmark/${id}`
+    );
     const response = await axios.get(`/bookmarks/${user.id}`);
     console.log(response.data);
     if (res.data.bookmarks === []) {

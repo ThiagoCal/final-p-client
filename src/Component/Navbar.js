@@ -17,7 +17,7 @@ const Navbar2 = (props) => {
 
   const handleAction = async () => {
     try {
-      let res = await axios.get("/logout");
+      let res = await axios.get(`${process.env.REACT_APP_BASEURL}/logout`);
       setUser(null);
       setOptions(!options);
       navigate("/");

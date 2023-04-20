@@ -18,12 +18,15 @@ export default function UserProfile() {
     e.preventDefault();
     const updateUser = async () => {
       try {
-        let res = await axios.put(`/users/${user.id}`, {
-          first_name: firstName,
-          last_name: lastName,
-          username,
-          email,
-        });
+        let res = await axios.put(
+          `${process.env.REACT_APP_BASEURL}/users/${user.id}`,
+          {
+            first_name: firstName,
+            last_name: lastName,
+            username,
+            email,
+          }
+        );
         console.log(res.data);
         setUser(res.data);
         navigate("/");
