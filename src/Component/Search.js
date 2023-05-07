@@ -17,9 +17,10 @@ function Search() {
   const [parties, setParties] = useState(null);
   const [loading, setLoading] = useState(false);
   const [musicId, setMusicId] = useState([]);
-  const [music, setMusic] = useState("");
-  const [category, setCategory] = useState("");
+  // const [music, setMusic] = useState("");
+  // const [category, setCategory] = useState("");
   const [categoryId, setCategoryId] = useState([]);
+  const [msg, setMsg] = useState("");
   let date = new Date();
   let todayDate = moment(date).format("DD-MM-YYYY");
 
@@ -64,6 +65,7 @@ function Search() {
       setLoading(false);
     } catch (error) {
       console.log(error);
+      setMsg(error);
       setLoading(false);
     }
   };
@@ -283,110 +285,115 @@ function Search() {
           Search
         </button>
       </div>
-
-      {loading ? (
-        <div key={"loading"}> Loading ...</div>
+      {msg ? (
+        <div>{msg}</div>
       ) : (
-        <div className="container mx-auto flex mt-5" key={"container"}>
-          {parties?.length > 0 ? (
-            <div className="flex justify-center">
-              <div className="flex flex-col w-11/12">
-                {parties.map((party) => {
-                  return (
-                    <>
-                      <div
-                        className="flex flex-col justify-center w-full mr-1 mb-2"
-                        key={party.id}
-                      >
-                        <div
-                          className="relative flex flex-row w-11/12 rounded-xl shadow-lg p-2  mx-auto border border-white bg-white"
-                          onClick={() => handlePartyCardClick(party)}
-                          key={party.id}
-                        >
-                          <div className="w-3/4 bg-white grid place-items-center">
-                            <img
-                              src={`${process.env.REACT_APP_SERVERURL}${
-                                party.image_path ?? "default.jpeg"
-                              }`}
-                              style={{
-                                maxHeight: "250px",
-                                minHeight: "250px",
-                                minWidth: "100%",
-                              }}
-                              alt={"tailwind logo"}
-                              className={"rounded-xl"}
-                            />
-                          </div>
-                          <div className="w-full md:w-2/3 bg-white flex flex-col justify-between space-y-2 p-3">
-                            <div className="flex flex-col justify-between item-center">
-                              <p className="text-gray-600 font-bold text-xs ml-1">
-                                {moment(party.party_date).format(
-                                  "MMMM Do YYYY, h:mm a"
-                                )}
-                              </p>
-                              <h3 className="font-black text-gray-800 md:text-xl text-xl truncate ">
-                                {party.name}
-                              </h3>
-                              <p className="md:text-m text-gray-500 text-base  ">
-                                {party.description.length > 150
-                                  ? `${party.description.slice(0, 150)}...`
-                                  : party.description}
-                              </p>
-                            </div>
-                            <div className="">
-                              <p className="md:text-m text-gray-500 text-base">
-                                {party.address}
-                              </p>
-                              <p className="text-l font-black text-gray-800">
-                                <span className="font-normal text-gray-600 text-base">
-                                  {`Price: `}
-                                </span>
-                                ${party.price}
-                                <span className="font-normal text-gray-600 text-base">
-                                  /person
-                                </span>
-                              </p>
-                              {/* <p className="text-gray-500 font-small hidden md:block">
-                            {category}
-                          </p>
-                          <p className="text-gray-500 font-small hidden md:block">
-                            {music}
-                          </p> */}
-                              <div className="px-3 text-center py-1 bg-gray-200 rounded-full text-xs font-medium text-gray-800 hidden md:block">
-                                {party.city}
-                              </div>
-                              <Link to={`/party/${party.id}`}>
-                                <div
-                                  className=" px-3
-                                text-center
-                                py-1
-                                bg-primary
-                                rounded-full
-                                text-xs
-                                font-medium
-                                text-gray-800
-                                hidden
-                                md:block
-                                mt-2
-                              "
-                                >
-                                  Link to the party
-                                </div>
-                              </Link>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </>
-                  );
-                })}
-              </div>
-              <MapView className="w-1/5" parties={parties} />
-            </div>
+        <>
+          {loading ? (
+            <div key={"loading"}> Loading ...</div>
           ) : (
-            parties !== null && <div>Couldn't find any party</div>
+            <div className="container mx-auto flex mt-5" key={"container"}>
+              {parties?.length > 0 ? (
+                <div className="flex justify-center">
+                  <div className="flex flex-col w-11/12">
+                    {parties.map((party) => {
+                      return (
+                        <>
+                          <div
+                            className="flex flex-col justify-center w-full mr-1 mb-2"
+                            key={party.id}
+                          >
+                            <div
+                              className="relative flex flex-row w-11/12 rounded-xl shadow-lg p-2  mx-auto border border-white bg-white"
+                              onClick={() => handlePartyCardClick(party)}
+                              key={party.id}
+                            >
+                              <div className="w-3/4 bg-white grid place-items-center">
+                                <img
+                                  src={`${process.env.REACT_APP_SERVERURL}${
+                                    party.image_path ?? "default.jpeg"
+                                  }`}
+                                  style={{
+                                    maxHeight: "250px",
+                                    minHeight: "250px",
+                                    minWidth: "100%",
+                                  }}
+                                  alt={"tailwind logo"}
+                                  className={"rounded-xl"}
+                                />
+                              </div>
+                              <div className="w-full md:w-2/3 bg-white flex flex-col justify-between space-y-2 p-3">
+                                <div className="flex flex-col justify-between item-center">
+                                  <p className="text-gray-600 font-bold text-xs ml-1">
+                                    {moment(party.party_date).format(
+                                      "MMMM Do YYYY, h:mm a"
+                                    )}
+                                  </p>
+                                  <h3 className="font-black text-gray-800 md:text-xl text-xl truncate ">
+                                    {party.name}
+                                  </h3>
+                                  <p className="md:text-m text-gray-500 text-base  ">
+                                    {party.description.length > 150
+                                      ? `${party.description.slice(0, 150)}...`
+                                      : party.description}
+                                  </p>
+                                </div>
+                                <div className="">
+                                  <p className="md:text-m text-gray-500 text-base">
+                                    {party.address}
+                                  </p>
+                                  <p className="text-l font-black text-gray-800">
+                                    <span className="font-normal text-gray-600 text-base">
+                                      {`Price: `}
+                                    </span>
+                                    ${party.price}
+                                    <span className="font-normal text-gray-600 text-base">
+                                      /person
+                                    </span>
+                                  </p>
+                                  {/* <p className="text-gray-500 font-small hidden md:block">
+                                  {category}
+                                </p>
+                                <p className="text-gray-500 font-small hidden md:block">
+                                  {music}
+                                </p> */}
+                                  <div className="px-3 text-center py-1 bg-gray-200 rounded-full text-xs font-medium text-gray-800 hidden md:block">
+                                    {party.city}
+                                  </div>
+                                  <Link to={`/party/${party.id}`}>
+                                    <div
+                                      className=" px-3
+                                      text-center
+                                      py-1
+                                      bg-primary
+                                      rounded-full
+                                      text-xs
+                                      font-medium
+                                      text-gray-800
+                                      hidden
+                                      md:block
+                                      mt-2
+                                    "
+                                    >
+                                      Link to the party
+                                    </div>
+                                  </Link>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </>
+                      );
+                    })}
+                  </div>
+                  <MapView className="w-1/5" parties={parties} />
+                </div>
+              ) : (
+                parties !== null && <div>Couldn't find any party</div>
+              )}
+            </div>
           )}
-        </div>
+        </>
       )}
     </div>
   );

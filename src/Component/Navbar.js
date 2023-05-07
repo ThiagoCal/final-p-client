@@ -69,8 +69,8 @@ const Navbar2 = (props) => {
               href="#"
             >
               <img
-                src="https://tecdn.b-cdn.net/img/logo/te-transparent-noshadows.webp"
-                style={{ height: "15px" }}
+                src={`${process.env.REACT_APP_SERVERURL}${"Mymessibapal.png"}`}
+                style={{ height: "35px" }}
                 alt=""
                 loading="lazy"
               />

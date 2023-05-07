@@ -15,6 +15,8 @@ import FileUpload from "./Component/FileUpload";
 import UserProfile from "./Component/UserProfile";
 import Party from "./Component/Party";
 import MyFavorites from "./Component/MyFavorites";
+import AboutUs from "./Component/AboutUs";
+import Footer from "./Component/Footer";
 
 function App() {
   useEffect(() => {
@@ -77,7 +79,9 @@ function App() {
             {/* <Route path="/login" element={<CreateUser2 />}></Route> */}
             <Route path="/control" element={<ControlPanel />}></Route>
             <Route path="/upload" element={<FileUpload />}></Route>
+            <Route path="/aboutus" element={<AboutUs />}></Route>
           </Routes>
+          <Footer />
         </div>
       </BrowserRouter>
     </AppContextProvider>

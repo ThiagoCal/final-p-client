@@ -106,6 +106,7 @@ const LoginRegister = (props) => {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
+            {msg ? <p className="text-primary p-1 mt-1 mb-1">{msg}</p> : <></>}
             <div className="flex items-center justify-center mb-3">
               {/* justify-between if adding the forgot password */}
               <button
@@ -249,6 +250,7 @@ const LoginRegister = (props) => {
               />
             </div>
           </div>
+          {msg ? <p className="text-primary p-1 mt-1 mb-1">{msg}</p> : <></>}
           <div className="flex items-center justify-center mb-3">
             {/* justify-between if adding the forgot password */}
             <button

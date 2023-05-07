@@ -26,7 +26,8 @@ export default function Cta() {
             }}
           >
             <h1 className="text-5xl md:text-4xl xl:text-4xl font-bold tracking-tight">
-              Party Search <br /> Search for the best parties <br />
+              <span className="text-primary">My Messiba Pal </span> is a Party
+              Search App <br /> We help you find for the best parties <br />
               <span className="text-primary">around you</span>
             </h1>
             {!user ? (
