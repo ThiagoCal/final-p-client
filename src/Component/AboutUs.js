@@ -33,9 +33,9 @@ export default function AboutUs() {
             Users, on the other hand, can search for parties and events that
             interest them. They can view the details of each party, such as the
             theme, location, and time. Users can save parties they're interested
-            in and even RSVP to attend. Whether you're looking to host a party
-            or simply attend one, our app has you covered. So, choose your
-            account type and join the party!
+            in and favorite those they which to attend. Whether you're looking
+            to host a party or simply attend one, our app has you covered. So,
+            choose your account type and join the party!
           </p>
         </div>
       </div>
